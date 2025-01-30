@@ -1,6 +1,4 @@
 import { db } from "@/lib/db";
-import { Categories } from "./_components/categories";
-import { SearchInput } from "@/components/search-input";
 import { getCourses } from "@/actions/get-courses";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -31,10 +29,6 @@ const SearchPage = async ({
         },
     });
 
-    // const courses = await getCourses({
-    //     userId,
-    //     ...searchParams,
-    // });
 
     const resolvedSearchParams = await searchParams;
 
@@ -50,9 +44,6 @@ const SearchPage = async ({
 
     return ( 
         <>
-        {/* <div className="px-6 pt-6 md:hidden md:mb-0 block">
-            <SearchInput />
-        </div> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6">
             <InfoCard
             icon={Clock}
@@ -71,12 +62,7 @@ const SearchPage = async ({
           items={[...coursesInProgress, ...completedCourses]}
         />
         </div>
-            {/* <div className="p-6 space-y-4">
-                <Categories
-                    items={categories}
-                />
-                <CoursesList items={courses} />
-            </div> */}
+
         </>
      );
 }

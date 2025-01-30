@@ -8,7 +8,11 @@ import {
     FcMusic,
     FcOldTimeCamera,
     FcSalesPerformance,
-    FcSportsMode
+    FcSportsMode,
+    FcOnlineSupport,
+    FcCurrencyExchange,
+    FcSmartphoneTablet,
+    FcGoogle
 } from "react-icons/fc";
 
 import { IconType  } from "react-icons";
@@ -27,12 +31,12 @@ const iconMap: Record<Category["name"], IconType> = {
     "Accounting": FcSalesPerformance,
     "Computer Science": FcMultipleDevices,
     "Filming": FcFilmReel,
-    "Web Development": FcFilmReel,
-    "Language": FcFilmReel,
-    "Economics": FcSalesPerformance,
-    "Microsoft": FcFilmReel,
+    "Web Development": FcMultipleDevices,
+    "Language": FcOnlineSupport,
+    "Economics": FcCurrencyExchange,
+    "Microsoft": FcGoogle,
     "Engineering": FcEngineering,
-    "App Development": FcMultipleDevices,
+    "App Development": FcSmartphoneTablet ,
 };
 
 export const Categories = ({

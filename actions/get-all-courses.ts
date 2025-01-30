@@ -1,6 +1,4 @@
 import { db } from "@/lib/db";
-import { Category, Course } from "@prisma/client";
-import { title } from "process";
 
 
 type GetAllCourses = {

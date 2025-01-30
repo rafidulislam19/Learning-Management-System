@@ -7,7 +7,6 @@ import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 import { isTeacher } from "@/lib/teacher";
-import { Logo } from "@/app/(dashboard)/_components/logo";
 import DarkModeToggle from "./darkModeToggle";
 
 export const NavbarRoutes = () => {

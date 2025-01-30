@@ -16,9 +16,6 @@ interface VideoPlayerHomeProps {
 
 export const VideoPlayerHome = ({
     playbackId,
-    courseId,
-    chapterId,
-    nextChapterId,
     isLocked,
     title,
 }: VideoPlayerHomeProps) => {

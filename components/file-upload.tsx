@@ -2,7 +2,6 @@
 
 import { UploadDropzone } from "@/lib/uploadthing"
 import { ourFileRouter } from "@/app/api/uploadthing/core"
-import { error } from "console";
 import toast from "react-hot-toast";
 
 interface FileUploadProps {

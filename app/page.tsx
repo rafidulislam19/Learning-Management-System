@@ -24,11 +24,6 @@ export default async function Home({
     searchParams
 }: SearchPageProps) {
 
-    // const { userId } = await auth();
-    // if(!userId) {
-    //     return redirect("/");
-    //   }
-
     const categories = await db.category.findMany({
               orderBy: {
                   name: "asc",

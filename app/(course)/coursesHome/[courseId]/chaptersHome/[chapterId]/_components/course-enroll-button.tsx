@@ -1,8 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/format";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -13,8 +11,6 @@ interface CourseEnrollButtonProps {
 }
 
 export const CourseEnrollButton = ({
-    price,
-    courseId,
 }: CourseEnrollButtonProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
@@ -23,10 +19,7 @@ export const CourseEnrollButton = ({
         try {
             setIsLoading(true);
 
-            // const response  = await axios.post(`/api/courses/${courseId}/checkout`);
             router.push('/sign-in');
-
-            // window.location.assign(response.data.url);
 
         } catch {
             toast.error("Something went wrong");

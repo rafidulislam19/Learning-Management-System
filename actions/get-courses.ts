@@ -1,6 +1,5 @@
 import { db } from "@/lib/db";
 import { Category, Course } from "@prisma/client";
-import { title } from "process";
 import { getProgress } from "./get-progress";
 
 

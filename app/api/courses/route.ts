@@ -7,8 +7,6 @@ export async function POST(
     req: Request,
 ) {
     try {
-        // const authResult = await auth();
-        // console.log("Auth Result:", authResult);
         const { userId } = await auth();
         const { title } = await req.json();
 

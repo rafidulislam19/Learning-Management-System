@@ -1,21 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import Mux from "@mux/mux-node";
 
 import { db } from "@/lib/db";
 
-// const { Video } = new Mux(
-//     process.env.MUX_TOKEN_ID!, 
-//     process.env.MUX_TOKEN_SECRET!,
-//   );
-
-// const mux = new Mux({
-//     tokenId: process.env.MUX_TOKEN_ID,
-//     tokenSecret: process.env.MUX_TOKEN_SECRET
-//   });
-
-// Access the Video API from the Mux instance
-// const { video } = mux;
 
 export async function DELETE(
     req: Request,
@@ -51,22 +38,6 @@ export async function DELETE(
         if (!quiz) {
             return new NextResponse("Quiz not found", { status: 404 });
         }
-
-        // if(chapter.videoUrl) {
-        //     const existingMuxData = await db.muxData.findFirst({
-        //         where: {
-        //             quizId: resolvedParams.quizId,
-        //         }
-        //     });
-
-            // if(existingMuxData) {
-            //     await video.assets.delete(existingMuxData.assetId);
-            //     await db.muxData.delete({
-            //         where: {
-            //             id: existingMuxData.id,
-            //         }
-            //     });
-            // }
 
         const deletedQuiz = await db.quiz.delete({
             where: {

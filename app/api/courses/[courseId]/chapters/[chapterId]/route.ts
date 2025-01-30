@@ -4,11 +4,6 @@ import Mux from "@mux/mux-node";
 
 import { db } from "@/lib/db";
 
-// const { Video } = new Mux(
-//     process.env.MUX_TOKEN_ID!, 
-//     process.env.MUX_TOKEN_SECRET!,
-//   );
-
 const mux = new Mux({
     tokenId: process.env.MUX_TOKEN_ID,
     tokenSecret: process.env.MUX_TOKEN_SECRET
