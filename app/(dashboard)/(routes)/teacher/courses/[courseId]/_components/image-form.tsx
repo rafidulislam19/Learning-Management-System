@@ -18,11 +18,15 @@ interface ImageFormProps {
     courseId: string;
 }
 
+
 const formSchema = z.object({
     imageUrl: z.string().min(1, {
         message: "Image is required!",
     }),
-})
+});
+
+// Explicitly define the type
+type FormSchemaType = z.infer<typeof formSchema>;
 export const ImageForm = ({
     initialData,
     courseId,
@@ -35,7 +39,7 @@ export const ImageForm = ({
         setIsEditing((current) => !current);
     }
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: FormSchemaType) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
             toast.success("Course updated successfully!")

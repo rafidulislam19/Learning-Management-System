@@ -9,22 +9,23 @@ type CourseWithCategory  = Course & {
 interface CoursesListHomeProps {
     items: CourseWithCategory[];
 }
-export const CoursesListHome = ({
-    items
-}: CoursesListHomeProps) => {
+
+
+export const CoursesListHome = ({ items }: CoursesListHomeProps) => {
     return ( 
         <div>
             <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
-                {items.map((item)=> (
+                {items.map((item) => (
                     <CourseCardHome
-                       key={item.id} 
-                       id={item.id} 
-                       title={item.title}
-                       imageUrl={item.imageUrl!}
-                       chaptersLength={item.chapters.length}
-                       price={item.price!}
-                       category={item?.category?.name!}
-                    /> 
+                    key={item.id} 
+                    id={item.id} 
+                    title={item.title}
+                    imageUrl={item.imageUrl!} // Provide a default image
+                    chaptersLength={item.chapters.length}
+                    price={typeof item.price === "number" ? item.price : 0} // Ensure price is always a number
+                    category={item.category?.name || "Uncategorized"} // Handle null category safely
+                /> 
+                
                 ))}
             </div>
             {items.length === 0 && (
@@ -33,5 +34,5 @@ export const CoursesListHome = ({
                 </div>
             )}
         </div>
-     );
+    );
 }

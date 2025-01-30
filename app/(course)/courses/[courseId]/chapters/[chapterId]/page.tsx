@@ -65,8 +65,8 @@ const ChapterIdPage = async ({
                         chapterId={resolvedParams.chapterId}
                         title={chapter.title}
                         courseId={resolvedParams.courseId}
-                        nextChapterId={nextChapter?.id!}
-                        playbackId={muxData?.playbackId!}
+                        nextChapterId={nextChapter?.id || ""}
+                        playbackId={muxData?.playbackId || ""}
                         isLocked={isLocked}
                         completeOnEnd={completeOnEnd}
                     />

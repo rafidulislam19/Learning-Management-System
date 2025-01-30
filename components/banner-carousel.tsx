@@ -18,11 +18,11 @@ const BannerCarousel = () => {
   };
 
   // Function to show previous slide
-  const prevSlide = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length
-    );
-  };
+  // const prevSlide = () => {
+  //   setCurrentIndex(
+  //     (prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length
+  //   );
+  // };
 
   // Auto slide every 2 seconds
   useEffect(() => {
@@ -47,7 +47,7 @@ const BannerCarousel = () => {
             Discover, Learn, and Upskill with our wide range of courses
           </p>
 
-          <form className="flex items-center bg-white dark:bg-gray-800 rounded-full shadow-lg overflow-hidden max-w-xl mx-auto mb-6">
+          <form className="flex items-center bg-white dark:bg-gray-800 dark:text-gray-800 rounded-full shadow-lg overflow-hidden max-w-xl mx-auto mb-6">
             <div className="flex-grow">
               <SearchInput />
             </div>

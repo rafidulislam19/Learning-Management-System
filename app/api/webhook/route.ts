@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
 
@@ -15,9 +14,12 @@ export async function POST(req: Request) {
             body,
             signature,
             process.env.STRIPE_WEBHOOK_SECRET!
-        )
-    } catch (error: any) {
-        return new NextResponse(`Webhook Error: ${error.message}`, { status:400 })
+        );
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
+        }
+        return new NextResponse(`Webhook Error: Unknown error`, { status: 400 });
     }
 
     const session = event.data.object as Stripe.Checkout.Session;
@@ -26,15 +28,15 @@ export async function POST(req: Request) {
 
     if (event.type === "checkout.session.completed") {
         if (!userId || !courseId) {
-            return new NextResponse(`Webhook Error: Missing metadata`, { status:400 });
+            return new NextResponse(`Webhook Error: Missing metadata`, { status: 400 });
         }
 
         console.log("Session found!!!!");
 
         await db.purchase.create({
             data: {
-                courseId: courseId,
-                userId: userId,
+                courseId,
+                userId,
             }
         });
     } else {
@@ -42,6 +44,4 @@ export async function POST(req: Request) {
     }
 
     return new NextResponse(null, { status: 200 });
-
-    
 }

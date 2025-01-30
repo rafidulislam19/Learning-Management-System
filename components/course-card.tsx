@@ -4,8 +4,6 @@ import { IconBadge } from "@/components/icon-badge";
 import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import { CourseProgress } from "@/components/course-progress";
-import { number } from "zod";
-import { auth } from "@clerk/nextjs/server";
 
 interface CourseCardProps {
     id: string;

@@ -1,13 +1,6 @@
-import { SearchInput } from "@/components/search-input";
 import { Navbar } from "./(dashboard)/_components/navbar";
-import { Button } from "@/components/ui/button";
 import { Categories } from "./(dashboard)/(routes)/search/_components/categories";
-import { CoursesList } from "@/components/courses-list";
 import { db } from "@/lib/db";
-import { getCourses } from "@/actions/get-courses";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import { Logo } from "./(dashboard)/_components/logo";
 import { getAllCourses } from "@/actions/get-all-courses";
 import { CoursesListHome } from "@/components/courses-list-home";
 import Footer from "@/components/footer";

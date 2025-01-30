@@ -21,7 +21,10 @@ interface ChapterVideoFormProps {
 
 const formSchema = z.object({
     videoUrl: z.string().min(1),
-})
+});
+
+// Explicitly define the type
+type FormSchemaType = z.infer<typeof formSchema>;
 export const ChapterVideoForm = ({
     initialData,
     courseId,
@@ -35,7 +38,7 @@ export const ChapterVideoForm = ({
         setIsEditing((current) => !current);
     }
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: FormSchemaType) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
             toast.success("Chapter updated successfully!")
@@ -95,7 +98,7 @@ export const ChapterVideoForm = ({
                     }}
                     />
                     <div className="text-xs text-muted-foreground mt-4">
-                        Upload this chapter's video
+                        Upload the video for this chapter
                     </div>
                 </div>
             )}

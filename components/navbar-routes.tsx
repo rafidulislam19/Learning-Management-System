@@ -20,11 +20,11 @@ export const NavbarRoutes = () => {
 
     return ( 
         <>
-        { isSearchPage && (
+        {/* { isSearchPage && (
             <div className="hidden md:block">
                 <SearchInput />
             </div>
-        )}
+        )} */}
         <div className="flex gap-x-2 ml-auto">
             <div className="mr-2 flex items-center">
             <DarkModeToggle />

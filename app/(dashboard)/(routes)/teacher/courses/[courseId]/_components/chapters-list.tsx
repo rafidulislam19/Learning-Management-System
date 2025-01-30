@@ -23,7 +23,7 @@ export const ChaptersList = ({
     items,
     onReorder,
     onEditChapter,
-    onEditQuiz,
+    // onEditQuiz,
 } : ChaptersListProps) => {
     const [isMounted, setIsMounted] = useState(false);
     const [chapters, setChapters] = useState(items);

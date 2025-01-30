@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import Link from "next/link";
-import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard } from "lucide-react";
 import { IconBadge } from "@/components/icon-badge";
 import { QuizTitleForm } from "./_components/quiz-title-form";
 import { Banner } from "@/components/banner";
@@ -42,7 +42,7 @@ const QuizIdPage = async ({
 
     const completionText = `(${completedFields}/${totalFields})`; 
 
-    const isComplete = requiredFields.every(Boolean);
+    // const isComplete = requiredFields.every(Boolean);
 
     return ( 
         <>

@@ -40,6 +40,7 @@ export const Actions = ({
 
         } catch (error) {
             toast.error("Something went wrong!");
+            console.log(error);
         } finally {
             setIsLoading(false);
         }

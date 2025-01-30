@@ -19,7 +19,11 @@ interface AttachmentFormProps {
 
 const formSchema = z.object({
     url: z.string().min(1),
-})
+});
+
+// Explicitly define the type
+type FormSchemaType = z.infer<typeof formSchema>;
+
 export const AttachmentForm = ({
     initialData,
     courseId,
@@ -33,7 +37,7 @@ export const AttachmentForm = ({
         setIsEditing((current) => !current);
     }
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: FormSchemaType) => {
         try {
             await axios.post(`/api/courses/${courseId}/attachments`, values);
             toast.success("Course updated successfully!")
