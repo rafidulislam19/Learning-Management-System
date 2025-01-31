@@ -9,20 +9,19 @@ import { Preview } from "@/components/preview";
 import { File } from "lucide-react";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
-// Define the correct type for params
-type ChapterIdPageProps = {
-    params: {
-        courseId: string;
-        chapterId: string;
-    };
-};
+const ChapterIdPage = async ({
+    params
+} : {
+    params: { courseId: string; chapterId: string }
+}) => {
 
-const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
     const { userId } = await auth();
 
     if (!userId) {
         return redirect("/home");
     }
+
+    // const resolvedParams = await params;
 
     const {
         chapter,
@@ -45,7 +44,7 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
     const isLocked = !chapter.isFree && !purchase;
     const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-    return (
+    return ( 
         <div>
             {userProgress?.isCompleted && (
                 <Banner
@@ -86,10 +85,11 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
                                     isCompleted={!!userProgress?.isCompleted}
                                 />
                             </div>
-                        ) : (
+                            
+                        ): (
                             <CourseEnrollButton
-                                courseId={params.courseId}
-                                price={course.price!}
+                             courseId={params.courseId}
+                             price={course.price!}
                             />
                         )}
                     </div>
@@ -97,17 +97,16 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
                     <div>
                         <Preview value={chapter.description!} />
                     </div>
-                    {!!attachments.length && (
+                    { !!attachments.length && (
                         <>
                             <Separator />
                             <div className="p-4">
                                 {attachments.map((attachment) => (
                                     <a
-                                        href={attachment.url}
-                                        target="_blank"
-                                        key={attachment.id}
-                                        className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
-                                    >
+                                    href={attachment.url}
+                                    target="_blank"
+                                    key={attachment.id}
+                                    className="flex items-center p-3 w-full bg-sky-200 borer text-sky-700 rounded-md hover:underline">
                                         <File />
                                         <p className="line-clamp-1">
                                             {attachment.name}
@@ -120,7 +119,7 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
                 </div>
             </div>
         </div>
-    );
-};
-
+     );
+}
+ 
 export default ChapterIdPage;
