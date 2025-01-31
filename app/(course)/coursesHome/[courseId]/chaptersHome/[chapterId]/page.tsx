@@ -44,12 +44,21 @@ const ChapterHomeIdPage = async ({
 
             <div className="flex flex-col max-w-4xl mx-auto pb-20">
                 <div className="p-4">
-                    <VideoPlayerHome
+                    {/* <VideoPlayerHome
                         chapterId={resolvedParams.chapterId}
                         title={chapter.title}
                         courseId={resolvedParams.courseId}
                         nextChapterId={nextChapter?.id!}
                         playbackId={muxData?.playbackId!}
+                        isLocked={isLocked}                        
+                    /> */}
+
+                    <VideoPlayerHome
+                        chapterId={resolvedParams.chapterId}
+                        title={chapter.title}
+                        courseId={resolvedParams.courseId}
+                        nextChapterId={nextChapter?.id || ""}
+                        playbackId={muxData?.playbackId || ""}
                         isLocked={isLocked}                        
                     />
                 </div>
@@ -58,15 +67,20 @@ const ChapterHomeIdPage = async ({
                         <h2 className="text-2xl font-semibold mb-2">
                             {chapter.title}
                         </h2>
-                        <CourseEnrollButton
+                        {/* <CourseEnrollButton
                             courseId={resolvedParams.courseId}
                             price={course.price!}
+                        /> */}
+
+                        <CourseEnrollButton
+                            courseId={resolvedParams.courseId}
+                            price={course.price ?? 0} 
                         />
 
                     </div>
                     <Separator />
                     <div>
-                        <Preview value={chapter.description!} />
+                        <Preview value={chapter.description || "No description available"} />
                     </div>
                     { !!attachments.length && (
                         <>

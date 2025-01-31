@@ -37,17 +37,35 @@ export const AttachmentForm = ({
         setIsEditing((current) => !current);
     }
 
+    // const onSubmit = async (values: FormSchemaType) => {
+    //     try {
+    //         await axios.post(`/api/courses/${courseId}/attachments`, values);
+    //         toast.success("Course updated successfully!")
+    //         toggleEdit();
+    //         router.refresh();
+    //     } catch {
+    //         toast.error("Something went wrong!");
+            
+    //     }
+    // };
+
     const onSubmit = async (values: FormSchemaType) => {
+        const validationResult = formSchema.safeParse(values);
+        if (!validationResult.success) {
+            toast.error("Invalid file URL!");
+            return;
+        }
+    
         try {
             await axios.post(`/api/courses/${courseId}/attachments`, values);
-            toast.success("Course updated successfully!")
+            toast.success("Course updated successfully!");
             toggleEdit();
             router.refresh();
         } catch {
             toast.error("Something went wrong!");
-            
         }
     };
+    
 
     const onDelete = async(id: string) => {
         try {

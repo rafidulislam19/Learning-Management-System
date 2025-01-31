@@ -39,17 +39,35 @@ export const ImageForm = ({
         setIsEditing((current) => !current);
     }
 
+    // const onSubmit = async (values: FormSchemaType) => {
+    //     try {
+    //         await axios.patch(`/api/courses/${courseId}`, values);
+    //         toast.success("Course updated successfully!")
+    //         toggleEdit();
+    //         router.refresh();
+    //     } catch {
+    //         toast.error("Something went wrong!");
+            
+    //     }
+    // }
+
     const onSubmit = async (values: FormSchemaType) => {
+        const validationResult = formSchema.safeParse(values);
+        if (!validationResult.success) {
+            toast.error("Invalid image URL!");
+            return;
+        }
+    
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success("Course updated successfully!")
+            toast.success("Course updated successfully!");
             toggleEdit();
             router.refresh();
         } catch {
             toast.error("Something went wrong!");
-            
         }
-    }
+    };
+    
 
     return ( 
         <div className="mt-6 border bg-slate-100 dark:bg-slate-800 rounded-md p-4">

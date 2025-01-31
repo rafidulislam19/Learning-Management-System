@@ -11,14 +11,10 @@
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-    namespace NodeJS {
-        interface Global {
-            prisma?: PrismaClient;
-        }
-    }
+    var prisma: PrismaClient | undefined;
 }
 
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+const globalForPrisma = globalThis as typeof globalThis & { prisma?: PrismaClient };
 
 export const db = globalForPrisma.prisma || new PrismaClient();
 
