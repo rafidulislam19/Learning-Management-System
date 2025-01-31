@@ -21,8 +21,6 @@ const ChapterIdPage = async ({
         return redirect("/home");
     }
 
-    const resolvedParams = await params;
-
     const {
         chapter,
         course,
@@ -33,8 +31,8 @@ const ChapterIdPage = async ({
         purchase,
     } = await getChapter({
         userId,
-        chapterId: resolvedParams.chapterId,
-        courseId: resolvedParams.courseId,
+        chapterId: params.chapterId,
+        courseId: params.courseId,
     });
 
     if (!chapter || !course) {
