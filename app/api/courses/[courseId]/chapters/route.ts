@@ -15,11 +15,11 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const courseOwner = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId: userId,
             }
         });
@@ -30,7 +30,7 @@ export async function POST(
 
         const lastChapter = await db.chapter.findFirst({
             where: {
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
             },
             orderBy: {
                 position: "desc",
@@ -42,7 +42,7 @@ export async function POST(
         const chapter = await db.chapter.create({
             data: {
                 title,
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
                 position: newPosition,
             }
         });

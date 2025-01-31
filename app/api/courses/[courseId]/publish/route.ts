@@ -14,11 +14,11 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const course = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             },
             include: {
@@ -42,7 +42,7 @@ export async function PATCH(
 
         const publishedCourse = await db.course.update({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             },
             data: {

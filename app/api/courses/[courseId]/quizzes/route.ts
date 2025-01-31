@@ -15,11 +15,11 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const courseOwner = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId: userId,
             }
         });
@@ -30,7 +30,7 @@ export async function POST(
 
         const lastQuiz = await db.quiz.findFirst({
             where: {
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
             },
             orderBy: {
                 position: "desc",
@@ -42,7 +42,7 @@ export async function POST(
         const quiz = await db.quiz.create({
             data: {
                 title,
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
                 position: newPosition,
             }
         });

@@ -14,13 +14,13 @@ export async function PUT(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const userProgress = await db.userProgress.upsert({
             where: {
                 userId_chapterId: {
                     userId,
-                    chapterId: resolvedParams.chapterId,
+                    chapterId: params.chapterId,
                 }
             },
             update: {
@@ -28,7 +28,7 @@ export async function PUT(
             },
             create: {
                 userId,
-                chapterId: resolvedParams.chapterId,
+                chapterId: params.chapterId,
                 isCompleted,
             }
         })

@@ -23,11 +23,11 @@ export async function DELETE(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             }
         });
@@ -38,8 +38,8 @@ export async function DELETE(
 
         const chapter = await db.chapter.findUnique({
             where: {
-                id: resolvedParams.chapterId,
-                courseId: resolvedParams.courseId,
+                id: params.chapterId,
+                courseId: params.courseId,
             },
         });
 
@@ -50,7 +50,7 @@ export async function DELETE(
         if(chapter.videoUrl) {
             const existingMuxData = await db.muxData.findFirst({
                 where: {
-                    chapterId: resolvedParams.chapterId,
+                    chapterId: params.chapterId,
                 }
             });
 
@@ -66,13 +66,13 @@ export async function DELETE(
 
         const deletedChapter = await db.chapter.delete({
             where: {
-                id: resolvedParams.chapterId
+                id: params.chapterId
             }
         });
 
         const publishedChapterInCourse = await db.chapter.findMany({
             where: {
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
                 isPublished: true,
             }
         })
@@ -80,7 +80,7 @@ export async function DELETE(
         if(!publishedChapterInCourse.length) {
             await db.course.update({
                 where: {
-                    id: resolvedParams.courseId,
+                    id: params.courseId,
                 },
                 data: {
                     isPublished: false,
@@ -108,11 +108,11 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             }
         });
@@ -123,8 +123,8 @@ export async function PATCH(
 
         const chapter = await db.chapter.update({
             where: {
-                id: resolvedParams.chapterId,
-                courseId: resolvedParams.courseId,
+                id: params.chapterId,
+                courseId: params.courseId,
             },
             data: {
                 ...values,
@@ -134,7 +134,7 @@ export async function PATCH(
         if(values.videoUrl) {
             const existingMuxData = await db.muxData.findFirst({
                 where: {
-                    chapterId: resolvedParams.chapterId,
+                    chapterId: params.chapterId,
                 }
             });
 
@@ -156,7 +156,7 @@ export async function PATCH(
 
             await db.muxData.create({
                 data: {
-                    chapterId: resolvedParams.chapterId,
+                    chapterId: params.chapterId,
                     assetId: asset.id,
                     playbackId: asset.playback_ids?.[0]?.id,
                 }

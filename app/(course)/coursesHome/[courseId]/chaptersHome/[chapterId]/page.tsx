@@ -14,7 +14,7 @@ const ChapterHomeIdPage = async ({
     params: { courseId: string; chapterId: string }
 }) => {
 
-    const resolvedParams = await params;
+    // const resolvedParams = await params;
 
     const {
         chapter,
@@ -23,8 +23,8 @@ const ChapterHomeIdPage = async ({
         attachments,
         nextChapter,
     } = await getChapterHome({
-        chapterId: resolvedParams.chapterId,
-        courseId: resolvedParams.courseId,
+        chapterId: params.chapterId,
+        courseId: params.courseId,
     });
 
     if (!chapter || !course) {
@@ -45,18 +45,18 @@ const ChapterHomeIdPage = async ({
             <div className="flex flex-col max-w-4xl mx-auto pb-20">
                 <div className="p-4">
                     {/* <VideoPlayerHome
-                        chapterId={resolvedParams.chapterId}
+                        chapterId={params.chapterId}
                         title={chapter.title}
-                        courseId={resolvedParams.courseId}
+                        courseId={params.courseId}
                         nextChapterId={nextChapter?.id!}
                         playbackId={muxData?.playbackId!}
                         isLocked={isLocked}                        
                     /> */}
 
                     <VideoPlayerHome
-                        chapterId={resolvedParams.chapterId}
+                        chapterId={params.chapterId}
                         title={chapter.title}
-                        courseId={resolvedParams.courseId}
+                        courseId={params.courseId}
                         nextChapterId={nextChapter?.id || ""}
                         playbackId={muxData?.playbackId || ""}
                         isLocked={isLocked}                        
@@ -68,12 +68,12 @@ const ChapterHomeIdPage = async ({
                             {chapter.title}
                         </h2>
                         {/* <CourseEnrollButton
-                            courseId={resolvedParams.courseId}
+                            courseId={params.courseId}
                             price={course.price!}
                         /> */}
 
                         <CourseEnrollButton
-                            courseId={resolvedParams.courseId}
+                            courseId={params.courseId}
                             price={course.price ?? 0} 
                         />
 

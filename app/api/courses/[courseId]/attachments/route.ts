@@ -14,11 +14,11 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const params = await params;
 
         const courseOwner = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId: userId,
             }
         });
@@ -31,7 +31,7 @@ export async function POST(
             data: {
                 url,
                 name: url.split("/").pop(),
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
             }
         });
 

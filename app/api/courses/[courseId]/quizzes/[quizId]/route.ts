@@ -15,11 +15,11 @@ export async function DELETE(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const resolvedParams = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             }
         });
@@ -30,8 +30,8 @@ export async function DELETE(
 
         const quiz = await db.quiz.findUnique({
             where: {
-                id: resolvedParams.quizId,
-                courseId: resolvedParams.courseId,
+                id: params.quizId,
+                courseId: params.courseId,
             },
         });
 
@@ -41,13 +41,13 @@ export async function DELETE(
 
         const deletedQuiz = await db.quiz.delete({
             where: {
-                id: resolvedParams.quizId
+                id: params.quizId
             }
         });
 
         const publishedQuizInCourse = await db.quiz.findMany({
             where: {
-                courseId: resolvedParams.courseId,
+                courseId: params.courseId,
                 isPublished: true,
             }
         })
@@ -55,7 +55,7 @@ export async function DELETE(
         if(!publishedQuizInCourse.length) {
             await db.course.update({
                 where: {
-                    id: resolvedParams.courseId,
+                    id: params.courseId,
                 },
                 data: {
                     isPublished: false,
@@ -83,11 +83,11 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        // const params = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: params.courseId,
                 userId,
             }
         });
@@ -98,8 +98,8 @@ export async function PATCH(
 
         const quiz = await db.quiz.update({
             where: {
-                id: resolvedParams.quizId,
-                courseId: resolvedParams.courseId,
+                id: params.quizId,
+                courseId: params.courseId,
             },
             data: {
                 ...values,

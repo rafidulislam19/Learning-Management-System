@@ -24,12 +24,12 @@ const ChapterIdPage = async ({
         return redirect("/home");
     }
 
-    const resolvedParams = await params;
+    // const resolvedParams = await params;
 
     const chapter = await db.chapter.findUnique({
         where: {
-            id: resolvedParams.chapterId,
-            courseId: resolvedParams.courseId
+            id: params.chapterId,
+            courseId: params.courseId
         },
         include: {
             muxData: true,
@@ -64,7 +64,7 @@ const ChapterIdPage = async ({
             <div className="p-6">
                 <div className="flex items-center justify-between">
                     <div className="w-full">
-                        <Link href={`/teacher/courses/${resolvedParams.courseId}`}
+                        <Link href={`/teacher/courses/${params.courseId}`}
                         className="flex items-center text-sm hover:opacity-75 transition mb-6">
                             <ArrowLeft className="h-4 w-4 mr-2" />
                             Back to course setup
@@ -80,8 +80,8 @@ const ChapterIdPage = async ({
                             </div>
                             <ChapterActions
                                 disabled={!isComplete}
-                                courseId={resolvedParams.courseId}
-                                chapterId={resolvedParams.chapterId}
+                                courseId={params.courseId}
+                                chapterId={params.chapterId}
                                 isPublished={chapter.isPublished}
                             />
                         </div>
@@ -98,13 +98,13 @@ const ChapterIdPage = async ({
                             </div>
                             <ChapterTitleForm
                                 initialData={chapter}
-                                courseId={resolvedParams.courseId}
-                                chapterId={resolvedParams.chapterId}
+                                courseId={params.courseId}
+                                chapterId={params.chapterId}
                             />
                             <ChapterDescriptionForm
                                 initialData={chapter}
-                                courseId={resolvedParams.courseId}
-                                chapterId={resolvedParams.chapterId}
+                                courseId={params.courseId}
+                                chapterId={params.chapterId}
                             />
                         </div>
                         <div className="flex items-center gap-x-2">
@@ -113,8 +113,8 @@ const ChapterIdPage = async ({
                         </div>
                         <ChapterAccessForm 
                             initialData={chapter}
-                            courseId={resolvedParams.courseId}
-                            chapterId={resolvedParams.chapterId}
+                            courseId={params.courseId}
+                            chapterId={params.chapterId}
                         />
                     </div>
                     <div>
@@ -126,8 +126,8 @@ const ChapterIdPage = async ({
                     </div>
                     <ChapterVideoForm
                     initialData={chapter}
-                    chapterId={resolvedParams.chapterId}
-                    courseId={resolvedParams.courseId}
+                    chapterId={params.chapterId}
+                    courseId={params.courseId}
                     />
                 </div>
                 </div>
