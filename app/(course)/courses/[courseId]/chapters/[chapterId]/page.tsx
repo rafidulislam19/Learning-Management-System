@@ -9,11 +9,15 @@ import { Preview } from "@/components/preview";
 import { File } from "lucide-react";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
-const ChapterIdPage = async ({
-    params
-}: {
-    params: { courseId: string; chapterId: string };
-}) => {
+// Define the correct type for params
+type ChapterIdPageProps = {
+    params: {
+        courseId: string;
+        chapterId: string;
+    };
+};
+
+const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
     const { userId } = await auth();
 
     if (!userId) {
