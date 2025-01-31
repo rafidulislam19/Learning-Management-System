@@ -60,9 +60,9 @@ const ChapterIdPage = async ({
             <div className="flex flex-col max-w-4xl mx-auto pb-20">
                 <div className="p-4">
                     <VideoPlayer
-                        chapterId={resolvedParams.chapterId}
+                        chapterId={params.chapterId}
                         title={chapter.title}
-                        courseId={resolvedParams.courseId}
+                        courseId={params.courseId}
                         nextChapterId={nextChapter?.id || ""}
                         playbackId={muxData?.playbackId || ""}
                         isLocked={isLocked}
@@ -77,8 +77,8 @@ const ChapterIdPage = async ({
                         {purchase ? (
                             <div>
                                 <CourseProgressButton
-                                    chapterId={resolvedParams.chapterId}
-                                    courseId={resolvedParams.courseId}
+                                    chapterId={params.chapterId}
+                                    courseId={params.courseId}
                                     nextChapterId={nextChapter?.id}
                                     isCompleted={!!userProgress?.isCompleted}
                                 />
@@ -86,7 +86,7 @@ const ChapterIdPage = async ({
                             
                         ): (
                             <CourseEnrollButton
-                             courseId={resolvedParams.courseId}
+                             courseId={params.courseId}
                              price={course.price!}
                             />
                         )}
