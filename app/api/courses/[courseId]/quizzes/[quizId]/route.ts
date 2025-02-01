@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { courseId: string; quizId: string } }
+    { params }: { params: Promise<{ courseId: string; quizId: string }> }
 ) {
     try {
         const { userId } = await auth();
@@ -15,11 +15,11 @@ export async function DELETE(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // const resolvedParams = await params;
+        const resolvedParams = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: params.courseId,
+                id: resolvedParams.courseId,
                 userId,
             }
         });
@@ -30,8 +30,8 @@ export async function DELETE(
 
         const quiz = await db.quiz.findUnique({
             where: {
-                id: params.quizId,
-                courseId: params.courseId,
+                id: resolvedParams.quizId,
+                courseId: resolvedParams.courseId,
             },
         });
 
@@ -41,13 +41,13 @@ export async function DELETE(
 
         const deletedQuiz = await db.quiz.delete({
             where: {
-                id: params.quizId
+                id: resolvedParams.quizId
             }
         });
 
         const publishedQuizInCourse = await db.quiz.findMany({
             where: {
-                courseId: params.courseId,
+                courseId: resolvedParams.courseId,
                 isPublished: true,
             }
         })
@@ -55,7 +55,7 @@ export async function DELETE(
         if(!publishedQuizInCourse.length) {
             await db.course.update({
                 where: {
-                    id: params.courseId,
+                    id: resolvedParams.courseId,
                 },
                 data: {
                     isPublished: false,
@@ -73,7 +73,7 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { courseId: string; quizId: string }}
+    { params }: { params: Promise<{ courseId: string; quizId: string }>}
 ) {
     try {
         const { userId } = await auth();
@@ -83,11 +83,11 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // const params = await params;
+        const resolvedParams = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: params.courseId,
+                id: resolvedParams.courseId,
                 userId,
             }
         });
@@ -98,8 +98,8 @@ export async function PATCH(
 
         const quiz = await db.quiz.update({
             where: {
-                id: params.quizId,
-                courseId: params.courseId,
+                id: resolvedParams.quizId,
+                courseId: resolvedParams.courseId,
             },
             data: {
                 ...values,

@@ -8,14 +8,14 @@ const CourseHomeLayout = async ({
     params,
 }: {
     children: React.ReactNode;
-    params: { courseId: string };
+    params: Promise<{ courseId: string }>;
 }) => {
 
-    // const resolvedParams = await params;
+    const resolvedParams = await params;
 
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId,
+            id: resolvedParams.courseId,
         },
         include: {
             chapters: {

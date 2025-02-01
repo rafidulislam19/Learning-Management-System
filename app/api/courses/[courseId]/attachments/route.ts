@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(
     req: Request,
-    { params }: { params: { courseId: string }}
+    { params }: { params: Promise<{ courseId: string }>}
 ) {
     try {
         const { userId } = await auth();
@@ -14,11 +14,11 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // const params = await params;
+        const resolvedParams = await params;
 
         const courseOwner = await db.course.findUnique({
             where: {
-                id: params.courseId,
+                id: resolvedParams.courseId,
                 userId: userId,
             }
         });
@@ -31,7 +31,7 @@ export async function POST(
             data: {
                 url,
                 name: url.split("/").pop(),
-                courseId: params.courseId,
+                courseId: resolvedParams.courseId,
             }
         });
 

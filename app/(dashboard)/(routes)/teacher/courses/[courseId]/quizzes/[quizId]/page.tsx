@@ -11,7 +11,7 @@ import { Banner } from "@/components/banner";
 const QuizIdPage = async ({
     params
 }: {
-    params: { courseId: string; quizId: string }
+    params: Promise<{ courseId: string; quizId: string }>
 }) => {
 
     const { userId } = await auth();
@@ -20,12 +20,12 @@ const QuizIdPage = async ({
         return redirect("/home");
     }
 
-    // const resolvedParams = await params;
+    const resolvedParams = await params;
 
     const quiz = await db.quiz.findUnique({
         where: {
-            id: params.quizId,
-            courseId: params.courseId
+            id: resolvedParams.quizId,
+            courseId: resolvedParams.courseId
         },
     });
 
@@ -55,7 +55,7 @@ const QuizIdPage = async ({
             <div className="p-6">
                 <div className="flex items-center justify-between">
                     <div className="w-full">
-                        <Link href={`/teacher/courses/${params.courseId}`}
+                        <Link href={`/teacher/courses/${resolvedParams.courseId}`}
                         className="flex items-center text-sm hover:opacity-75 transition mb-6">
                             <ArrowLeft className="h-4 w-4 mr-2" />
                             Back to course setup
@@ -71,8 +71,8 @@ const QuizIdPage = async ({
                             </div>
                             {/* <ChapterActions
                                 disabled={!isComplete}
-                                courseId={params.courseId}
-                                chapterId={params.chapterId}
+                                courseId={resolvedParams.courseId}
+                                chapterId={resolvedParams.chapterId}
                                 isPublished={chapter.isPublished}
                             /> */}
                         </div>
@@ -89,8 +89,8 @@ const QuizIdPage = async ({
                             </div>
                             <QuizTitleForm
                                 initialData={quiz}
-                                courseId={params.courseId}
-                                chapterId={params.quizId}
+                                courseId={resolvedParams.courseId}
+                                chapterId={resolvedParams.quizId}
                             />
                         </div>
                         <div className="flex items-center gap-x-2">
@@ -99,8 +99,8 @@ const QuizIdPage = async ({
                         </div>
                         {/* <ChapterAccessForm 
                             initialData={chapter}
-                            courseId={params.courseId}
-                            chapterId={params.chapterId}
+                            courseId={resolvedParams.courseId}
+                            chapterId={resolvedParams.chapterId}
                         /> */}
                     </div>
                     <div>

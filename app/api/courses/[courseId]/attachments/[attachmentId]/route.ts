@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { courseId: string, attachmentId: string } }
+    { params }: { params: Promise<{ courseId: string, attachmentId: string }> }
 ) {
     try {
        const { userId } = await auth();
@@ -14,11 +14,11 @@ export async function DELETE(
         return new NextResponse("Unauthorized", { status: 401 });
        }
 
-    //    const resolvedParams = await params;
+       const resolvedParams = await params;
 
        const courseOwner = await db.course.findUnique({
         where: {
-            id: params.courseId,
+            id: resolvedParams.courseId,
             userId: userId
         }
        });
@@ -28,8 +28,8 @@ export async function DELETE(
        }
        const attachment = await db.attachment.delete({
         where: {
-            courseId: params.courseId,
-            id: params.attachmentId,
+            courseId: resolvedParams.courseId,
+            id: resolvedParams.attachmentId,
         }
        });
 

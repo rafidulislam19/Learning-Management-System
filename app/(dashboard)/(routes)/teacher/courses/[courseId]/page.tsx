@@ -17,7 +17,7 @@ import { Actions } from "./_components/actions";
 const CourseIdPage = async ({
     params
 }: {
-    params: { courseId: string }
+    params: Promise<{ courseId: string }>
 }) => {
 
     const { userId } = await auth();
@@ -26,11 +26,11 @@ const CourseIdPage = async ({
         return redirect("/home");
     }
 
-    // const resolvedParams = await params;
+    const resolvedParams = await params;
 
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId,
+            id: resolvedParams.courseId,
             userId
         },
         include: {
@@ -93,7 +93,7 @@ const CourseIdPage = async ({
                     </div>
                     <Actions 
                         disabled={!isComplete}
-                        courseId={params.courseId}
+                        courseId={resolvedParams.courseId}
                         isPublished={course.isPublished}
                     />
                 </div>
