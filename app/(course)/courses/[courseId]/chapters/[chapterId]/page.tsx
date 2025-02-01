@@ -10,10 +10,11 @@ import { File } from "lucide-react";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
 interface ChapterIdPageProps {
-  params: { courseId: string; chapterId: string };
+  params: Promise<{ courseId: string; chapterId: string }>;
 }
 
 const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
+  const resolvedParams = await params;
   const { userId } = await auth();
 
   if (!userId) {
@@ -30,8 +31,8 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
     purchase,
   } = await getChapter({
     userId,
-    chapterId: params.chapterId,
-    courseId: params.courseId,
+    chapterId: resolvedParams.chapterId,
+    courseId: resolvedParams.courseId,
   });
 
   if (!chapter || !course) {
@@ -56,9 +57,9 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
       <div className="flex flex-col max-w-4xl mx-auto pb-20">
         <div className="p-4">
           <VideoPlayer
-            chapterId={params.chapterId}
+            chapterId={resolvedParams.chapterId}
             title={chapter.title}
-            courseId={params.courseId}
+            courseId={resolvedParams.courseId}
             nextChapterId={nextChapter?.id || ""}
             playbackId={muxData?.playbackId || ""}
             isLocked={isLocked}
@@ -71,14 +72,14 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
             {purchase ? (
               <div>
                 <CourseProgressButton
-                  chapterId={params.chapterId}
-                  courseId={params.courseId}
+                  chapterId={resolvedParams.chapterId}
+                  courseId={resolvedParams.courseId}
                   nextChapterId={nextChapter?.id}
                   isCompleted={!!userProgress?.isCompleted}
                 />
               </div>
             ) : (
-              <CourseEnrollButton courseId={params.courseId} price={course.price!} />
+              <CourseEnrollButton courseId={resolvedParams.courseId} price={course.price!} />
             )}
           </div>
           <Separator />
