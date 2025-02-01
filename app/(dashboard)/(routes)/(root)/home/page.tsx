@@ -8,10 +8,10 @@ import Footer from "@/components/footer";
 import BannerCarouselWithLogin from "@/components/banner-carousel-with-login";
 
 interface SearchPageProps {
-  searchParams: {
+  searchParams: Promise<{
       title: string;
       categoryId: string;
-  }
+  }>
 };
 
 export default async function Dashboard({
