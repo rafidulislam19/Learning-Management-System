@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import Mux from "@mux/mux-node";
+// import Mux from "@mux/mux-node";
 
 import { db } from "@/lib/db";
 
-const mux = new Mux({
-  tokenId: process.env.MUX_TOKEN_ID,
-  tokenSecret: process.env.MUX_TOKEN_SECRET,
-});
+// const mux = new Mux({
+//   tokenId: process.env.MUX_TOKEN_ID,
+//   tokenSecret: process.env.MUX_TOKEN_SECRET,
+// });
 
 // Access the Video API from the Mux instance
-const { video } = mux;
+// const { video } = mux;
 
 // export async function DELETE(
 //   req: Request,
