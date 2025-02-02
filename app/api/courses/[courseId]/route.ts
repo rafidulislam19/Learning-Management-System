@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import Mux from "@mux/mux-node";
+
 import { db } from "@/lib/db";
 
 const mux = new Mux({
@@ -8,23 +9,22 @@ const mux = new Mux({
   tokenSecret: process.env.MUX_TOKEN_SECRET,
 });
 
+// Access the Video API from the Mux instance
 const { video } = mux;
 
 export async function DELETE(
-  req: NextRequest,
-  context: { params: { courseId: string } }
+  { params }: { params: { courseId: string } }
 ) {
   try {
     const { userId } = await auth();
+
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { courseId } = context.params;
-
     const course = await db.course.findUnique({
       where: {
-        id: courseId,
+        id: params.courseId,
         userId: userId,
       },
       include: {
@@ -48,7 +48,7 @@ export async function DELETE(
 
     const deletedCourse = await db.course.delete({
       where: {
-        id: courseId,
+        id: params.courseId,
       },
     });
 
@@ -60,17 +60,17 @@ export async function DELETE(
 }
 
 export async function PATCH(
-  req: NextRequest,
-  context: { params: { courseId: string } }
+  req: Request,
+  { params }: { params: { courseId: string } }
 ) {
   try {
     const { userId } = await auth();
+    const { courseId } = params;
+    const values = await req.json();
+
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
-    const { courseId } = context.params;
-    const values = await req.json();
 
     const course = await db.course.update({
       where: {
@@ -84,7 +84,7 @@ export async function PATCH(
 
     return NextResponse.json(course);
   } catch (error) {
-    console.log("[COURSE_ID_PATCH]", error);
+    console.log("[COURSE_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
