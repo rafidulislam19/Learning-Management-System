@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import Mux from "@mux/mux-node";
 
@@ -12,7 +12,10 @@ const mux = new Mux({
 // Access the Video API from the Mux instance
 const { video } = mux;
 
-export async function DELETE(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: { courseId: string } }
+) {
   try {
     const { userId } = await auth();
 
