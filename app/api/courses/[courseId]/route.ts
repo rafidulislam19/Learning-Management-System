@@ -14,7 +14,7 @@ const { video } = mux;
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } } // Correctly typed
 ) {
   try {
     const { userId } = await auth();
@@ -62,7 +62,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } } // Correctly typed
 ) {
   try {
     const { userId } = await auth();
