@@ -12,9 +12,7 @@ const mux = new Mux({
 // Access the Video API from the Mux instance
 const { video } = mux;
 
-export async function DELETE(
-  { params }: { params: { courseId: string } }
-) {
+export async function DELETE(_req: Request, { params }: { params: { courseId: string } }) {
   try {
     const { userId } = await auth();
 
