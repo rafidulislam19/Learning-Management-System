@@ -64,11 +64,11 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: Promise<{ courseId: string }> }
 ) {
   try {
     const { userId } = await auth();
-    const { courseId } = params;
+    const { courseId } = await params;
     const values = await req.json();
 
     if (!userId) {
