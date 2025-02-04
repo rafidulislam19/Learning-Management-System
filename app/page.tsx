@@ -7,10 +7,10 @@ import Footer from "@/components/footer";
 import BannerCarousel from "@/components/banner-carousel";
 
 interface SearchPageProps {
-    searchParams: {
+    searchParams: Promise<{
         title: string;
         categoryId: string;
-    }
+    }>
   };
 
 export default async function Home({
