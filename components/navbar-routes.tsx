@@ -43,14 +43,14 @@ export const NavbarRoutes = () => {
                  </Button>
                 </Link>
             ): !userId ? (
-                <div>
+                <div className="flex items-center"> 
                 <Link href="/sign-in">
-                 <Button variant="outline" size="sm" className="text-sky-600 hover:text-sky-600 border border-sky-600 dark:bg-gray-900 hover:bg-sky-600/10 dark:hover:bg-sky-800/10 mr-3 font-semibold">
+                 <Button variant="outline" className="h-9 md:h-10 rounded-md px-2 md:px-4 text-sky-600 hover:text-sky-600 border border-sky-600 dark:bg-gray-900 hover:bg-sky-600/10 dark:hover:bg-sky-800/10 mr-3 font-semibold">
                     Login
                  </Button>
                 </Link>
                 <Link href="/sign-up">
-                 <Button size="sm" className="text-white bg-sky-600 hover:bg-sky-700 mr-3 font-semibold">
+                 <Button className="h-9 md:h-10 rounded-md px-2 md:px-4 text-white bg-sky-600 hover:bg-sky-700 font-semibold">
                     Sign up
                  </Button>
                 </Link>
@@ -63,7 +63,7 @@ export const NavbarRoutes = () => {
                 </Link>
             ) }
             <UserButton
-            afterSignOutUrl="/" />
+             afterSignOutUrl="/" />
         </div>
         </>
      );

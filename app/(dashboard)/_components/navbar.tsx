@@ -3,6 +3,7 @@ import { MobileSidebar } from "./mobile-sidebar";
 import { Logo } from "./logo";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
+import { MobileSidebarHome } from "./mobile-sidebar-home";
 
 export const Navbar = async () => {
 
@@ -12,7 +13,7 @@ export const Navbar = async () => {
             <Link href={!userId ? "/" : "/home"} className={!userId ? "p-6 hidden md:block" : "hidden" }>
                 <Logo />
             </Link>
-            <MobileSidebar />
+            {userId ? <MobileSidebar /> : <MobileSidebarHome />}
             <NavbarRoutes />
         </div>
      );

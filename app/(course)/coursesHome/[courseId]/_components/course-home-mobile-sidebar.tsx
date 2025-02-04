@@ -27,6 +27,6 @@ export const CourseHomeMobileSidebar = ({
                 course={course}
             />
         </SheetContent>
-    </Sheet>
+        </Sheet>
     )
 }
