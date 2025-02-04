@@ -14,7 +14,7 @@ const { video } = mux;
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: Promise<{ courseId: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -23,9 +23,11 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const resolvedParams = await params;
+
     const course = await db.course.findUnique({
       where: {
-        id: params.courseId,
+        id: resolvedParams.courseId,
         userId: userId,
       },
       include: {
@@ -49,7 +51,7 @@ export async function DELETE(
 
     const deletedCourse = await db.course.delete({
       where: {
-        id: params.courseId,
+        id: resolvedParams.courseId,
       },
     });
 
