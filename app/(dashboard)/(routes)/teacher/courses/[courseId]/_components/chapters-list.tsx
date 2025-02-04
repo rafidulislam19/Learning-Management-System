@@ -17,7 +17,7 @@ interface ChaptersListProps {
     items: Chapter[];
     onReorder: (updateData: { id: string; position: number}[]) => void;
     onEditChapter: (id: string) => void;
-    onEditQuiz: (id: string) => void;
+    // onEditQuiz: (id: string) => void;
 }
 export const ChaptersList = ({
     items,

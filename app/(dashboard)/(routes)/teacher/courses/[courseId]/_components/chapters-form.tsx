@@ -8,7 +8,7 @@ import { Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Chapter, Course, Quiz } from "@prisma/client";
+import { Chapter, Course } from "@prisma/client";
 
 import {
     Form,
@@ -24,7 +24,8 @@ import { Input } from "@/components/ui/input";
 import { ChaptersList } from "./chapters-list";
 
 interface ChaptersFormProps {
-    initialData: Course & { chapters: Chapter[], quizzes: Quiz[]};
+    // initialData: Course & { chapters: Chapter[], quizzes: Quiz[]};
+    initialData: Course & { chapters: Chapter[]};
     courseId: string;
 }
 
@@ -99,9 +100,9 @@ export const ChaptersForm = ({
     const onEditChapter = (id: string) => {
         router.push(`/teacher/courses/${courseId}/chapters/${id}`);
     }
-    const onEditQuiz = (id: string) => {
-        router.push(`/teacher/courses/${courseId}/quizzes/${id}`);
-    }
+    // const onEditQuiz = (id: string) => {
+    //     router.push(`/teacher/courses/${courseId}/quizzes/${id}`);
+    // }
 
 
     return (
@@ -201,9 +202,9 @@ export const ChaptersForm = ({
                     { !initialData.chapters.length && "No Chapters or Quizzes"}
                     <ChaptersList
                         onEditChapter={onEditChapter}
-                        onEditQuiz={onEditQuiz}
+                        // onEditQuiz={onEditQuiz}
                         onReorder={onReorder}
-                        items={[...(initialData.chapters || []), ...(initialData.quizzes || [])]}
+                        items={[...(initialData.chapters || [])]}
             />
                 </div>
             )}
