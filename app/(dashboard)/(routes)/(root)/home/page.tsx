@@ -39,9 +39,9 @@ export default async function Dashboard({
 
 
   return (
-    <div className="p-6 space-y-4 pt-0">
+    <div>
       <BannerCarouselWithLogin />
-        <div className="p-6 space-y-4">
+        {/* <div className="p-6 space-y-4">
             <div className="my-8 text-left">
                 <h1 className="text-3xl md:text-4xl text-gray-700 dark:text-gray-300 font-serif font-semibold my-4">All the skills you need in one place</h1>
                 <p className="text-gray-500 dark:text-gray-400 text-sm md:text-xl">From critical skills to technical topics, LMS supports your professional development.</p>
@@ -50,7 +50,23 @@ export default async function Dashboard({
                 items={categories}
             />
             <CoursesList items={courses} />
-        </div>
+        </div> */}
+        <div className="p-6 space-y-4">
+            <div className="my-8 text-left">
+                <h1 className="text-3xl md:text-4xl text-gray-700 dark:text-gray-300 font-serif font-semibold my-4">All the skills you need in one place</h1>
+                <p className="text-gray-500 dark:text-gray-400 text-sm md:text-xl">From critical skills to technical topics, LMS supports your professional development.</p>
+            </div>
+            <div>
+            <h1 className="text-3xl font-semibold text-center text-sky-600 py-5">Categories</h1>
+            <Categories
+                items={categories}
+            />
+            </div>
+            <div id="courses">
+            <h1 className="text-3xl font-semibold text-center text-sky-600 py-5" >Our Courses</h1>
+            <CoursesList items={courses} />
+            </div>
+          </div>
         <div className="mt-10">
           <Footer />
         </div>

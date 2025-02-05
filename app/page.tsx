@@ -5,6 +5,8 @@ import { getAllCourses } from "@/actions/get-all-courses";
 import { CoursesListHome } from "@/components/courses-list-home";
 import Footer from "@/components/footer";
 import BannerCarousel from "@/components/banner-carousel";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 interface SearchPageProps {
     searchParams: Promise<{
@@ -27,7 +29,14 @@ export default async function Home({
     
         const courses = await getAllCourses({
             ...resolvedSearchParams,
-        }); 
+        });
+
+        const { userId } = await auth();
+
+        if ( userId ) {
+            return redirect('/home');
+        }
+
     return ( 
         
         <div>

@@ -28,7 +28,7 @@ const BannerCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 4000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 

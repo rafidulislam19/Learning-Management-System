@@ -11,8 +11,8 @@ export const CourseHomeSidebar = async ({
 }: CourseHomeSidebarProps) => {
 
     return ( 
-        <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
-            <div className="p-6 flex flex-col border-b">
+        <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm dark:bg-gray-900">
+            <div className="p-7 flex flex-col">
                 <h1 className="font-semibold text-lg">
                     {course.title}
                 </h1>
