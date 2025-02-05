@@ -11,26 +11,46 @@ const bannerImages = [
 
 const BannerCarouselWithLogin = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  
+    // Preload images
+    useEffect(() => {
+      const loadImages = async () => {
+        const imagePromises = bannerImages.map((src) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+        });
+  
+        try {
+          await Promise.all(imagePromises);
+          setImagesLoaded(true);
+        } catch (error) {
+          console.error("Failed to load images", error);
+        }
+      };
+  
+      loadImages();
+    }, []);
+  
 
   // Function to show next slide
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
-  };
-
-  // Function to show previous slide
-  // const prevSlide = () => {
-  //   setCurrentIndex(
-  //     (prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length
-  //   );
-  // };
-
-  // Auto slide every 2 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    const nextSlide = () => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    };
+  
+    // Auto slide every 3 seconds
+    useEffect(() => {
+      if (imagesLoaded) {
+        const interval = setInterval(() => {
+          nextSlide();
+        }, 3000);
+        return () => clearInterval(interval);
+      }
+    }, [imagesLoaded]);
 
   return (
     <div className="relative overflow-hidden">

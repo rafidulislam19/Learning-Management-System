@@ -9,16 +9,16 @@ import {
     FcOldTimeCamera,
     FcSalesPerformance,
     FcSportsMode,
-    FcOnlineSupport,
     FcCurrencyExchange,
     FcSmartphoneTablet,
-    FcGoogle
 } from "react-icons/fc";
 
 import { IconType  } from "react-icons";
 import { CategoryItem } from "./category-item";
 import { useRef, useState, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaMicrosoft, FaLanguage } from "react-icons/fa";
+import { CgWebsite } from "react-icons/cg";
+import { MdAppSettingsAlt } from "react-icons/md";
 
 interface CategoriesProps {
     items: Category[];
@@ -31,12 +31,12 @@ const iconMap: Record<Category["name"], IconType> = {
     "Accounting": FcSalesPerformance,
     "Computer Science": FcMultipleDevices,
     "Filming": FcFilmReel,
-    "Web Development": FcMultipleDevices,
-    "Language": FcOnlineSupport,
+    "Web Development": CgWebsite,
+    "Language": FaLanguage,
     "Economics": FcCurrencyExchange,
-    "Microsoft": FcGoogle,
+    "Microsoft": FaMicrosoft,
     "Engineering": FcEngineering,
-    "App Development": FcSmartphoneTablet ,
+    "App Development": MdAppSettingsAlt ,
 };
 
 export const Categories = ({

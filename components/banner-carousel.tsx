@@ -11,26 +11,49 @@ const bannerImages = [
 
 const BannerCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Preload images
+  useEffect(() => {
+    const loadImages = async () => {
+      const imagePromises = bannerImages.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error("Failed to load images", error);
+      }
+    };
+
+    loadImages();
+  }, []);
 
   // Function to show next slide
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
   };
 
-  // Function to show previous slide
-  // const prevSlide = () => {
-  //   setCurrentIndex(
-  //     (prevIndex) => (prevIndex - 1 + bannerImages.length) % bannerImages.length
-  //   );
-  // };
-
-  // Auto slide every 2 seconds
+  // Auto slide every 3 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    if (imagesLoaded) {
+      const interval = setInterval(() => {
+        nextSlide();
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [imagesLoaded]);
+
+  // if (!imagesLoaded) {
+  //   return <div>Loading...</div>; // or a loading spinner
+  // }
 
   return (
     <div className="relative mt-16 overflow-hidden">
@@ -59,26 +82,6 @@ const BannerCarousel = () => {
             </button>
           </a>
         </div>
-
-        {/* Left Arrow */}
-        {/* {currentIndex > 0 && (
-          <button
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full shadow-lg hover:bg-white/50 transition-all"
-            onClick={prevSlide}
-          >
-            <FaChevronLeft size={24} />
-          </button>
-        )} */}
-
-        {/* Right Arrow */}
-        {/* {currentIndex < bannerImages.length - 1 && (
-          <button
-            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/30 text-white p-3 rounded-full shadow-lg hover:bg-white/50 transition-all"
-            onClick={nextSlide}
-          >
-            <FaChevronRight size={24} />
-          </button>
-        )} */}
       </div>
     </div>
   );
