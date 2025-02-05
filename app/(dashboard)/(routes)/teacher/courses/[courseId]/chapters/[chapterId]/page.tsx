@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import Link from "next/link";
-import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video, File } from "lucide-react";
 import { IconBadge } from "@/components/icon-badge";
 import { ChapterTitleForm } from "./_components/chapter-title-form";
 import { ChapterDescriptionForm } from "./_components/chapter-description-form";
@@ -11,6 +11,7 @@ import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterVideoForm } from "./_components/chapter-video-form";
 import { Banner } from "@/components/banner";
 import { ChapterActions } from "./_components/chapter-actions";
+import { ChapterAttachmentForm } from "./_components/chapter-attachment-form";
 
 const ChapterIdPage = async ({
     params
@@ -33,6 +34,11 @@ const ChapterIdPage = async ({
         },
         include: {
             muxData: true,
+            attachments: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+            },
         },
     });
 
@@ -116,6 +122,19 @@ const ChapterIdPage = async ({
                             courseId={resolvedParams.courseId}
                             chapterId={resolvedParams.chapterId}
                         />
+                        <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={File} />
+                            <h2 className="text-xl">
+                                Resources & Attachments
+                            </h2>
+                        </div>
+                        <ChapterAttachmentForm 
+                            initialData={chapter}
+                            courseId={resolvedParams.courseId}
+                            chapterId={resolvedParams.chapterId}
+                        />
+                        </div>
                     </div>
                     <div>
                     <div className="flex items-center gap-x-2">
@@ -129,6 +148,7 @@ const ChapterIdPage = async ({
                     chapterId={resolvedParams.chapterId}
                     courseId={resolvedParams.courseId}
                     />
+                    
                 </div>
                 </div>
             </div>

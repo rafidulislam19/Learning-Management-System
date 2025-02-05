@@ -6,14 +6,15 @@ import { File, Loader2, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Attachment, Course } from "@prisma/client";
+import { Attachment, Chapter, MuxData } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 
 
-interface AttachmentFormProps {
-    initialData: Course & {  attachments:Attachment[]};
+interface ChapterAttachmentFormProps {
+    initialData: { muxData:MuxData | null } & {  attachments:Attachment[] } & Chapter;
+    chapterId: string;
     courseId: string;
 };
 
@@ -24,10 +25,11 @@ const formSchema = z.object({
 // Explicitly define the type
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export const AttachmentForm = ({
+export const ChapterAttachmentForm = ({
     initialData,
-    courseId,
-}: AttachmentFormProps) => {
+    chapterId,
+    courseId
+}: ChapterAttachmentFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -57,12 +59,13 @@ export const AttachmentForm = ({
         }
     
         try {
-            await axios.post(`/api/courses/${courseId}/attachments`, values);
-            toast.success("Course updated successfully!");
+            await axios.post(`/api/courses/${courseId}/chapters/${chapterId}/attachments`, values);
+            toast.success("Chapter updated successfully!");
             toggleEdit();
             router.refresh();
-        } catch {
-            toast.error("Something went wrong!");
+        } catch(error) {
+            console.log(error);
+            toast.error(`Something went wrong! ${error}`);
         }
     };
     
@@ -70,7 +73,7 @@ export const AttachmentForm = ({
     const onDelete = async(id: string) => {
         try {
             setDeletingId(id);
-            await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+            await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}/attachments`);
             toast.success("Attachment deleted!");
             router.refresh();
         } catch {
@@ -83,7 +86,7 @@ export const AttachmentForm = ({
     return ( 
         <div className="mt-6 border bg-slate-100 dark:bg-slate-800 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Course Attachments
+                Chapter Attachments
                 <Button onClick={toggleEdit} variant="ghost">
                     {isEditing && (
                         <>Cancel</>
@@ -129,7 +132,7 @@ export const AttachmentForm = ({
             {isEditing && (
                 <div>
                     <FileUpload 
-                    endpoint="courseAttachment"
+                    endpoint="chapterAttachment"
                     onChange={(url) => {
                         if (url) {
                             onSubmit({ url: url });
@@ -137,7 +140,7 @@ export const AttachmentForm = ({
                     }}
                     />
                     <div className="text-xs text-muted-foreground mt-4">
-                        Add anything that your students might need to complete this course.
+                        Add anything that your students might need to complete chapter.
                     </div>
                 </div>
             )}

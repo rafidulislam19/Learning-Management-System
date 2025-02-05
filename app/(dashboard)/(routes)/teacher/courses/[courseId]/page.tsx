@@ -9,7 +9,6 @@ import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
-import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
@@ -37,11 +36,6 @@ const CourseIdPage = async ({
             chapters: {
                 orderBy: {
                     position: "asc",
-                },
-            },
-            attachments: {
-                orderBy: {
-                    createdAt: "desc",
                 },
             },
         },
@@ -152,16 +146,6 @@ const CourseIdPage = async ({
                             />
                         </div>
                         <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={File} />
-                                <h2 className="text-xl">
-                                    Resources & Attachments
-                                </h2>
-                            </div>
-                            <AttachmentForm 
-                                initialData={course}
-                                courseId={course.id}
-                        />
                         </div>
                     </div>
                 </div>

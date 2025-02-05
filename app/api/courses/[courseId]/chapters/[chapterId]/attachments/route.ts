@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(
     req: Request,
-    { params }: { params: Promise<{ courseId: string }>}
+    { params }: { params: Promise<{ chapterId: string }>}
 ) {
     try {
         const { userId } = await auth();
@@ -16,29 +16,29 @@ export async function POST(
 
         const resolvedParams = await params;
 
-        const courseOwner = await db.course.findUnique({
-            where: {
-                id: resolvedParams.courseId,
-                userId: userId,
-            }
-        });
+        // const courseOwner = await db.course.findUnique({
+        //     where: {
+        //         id: resolvedParams.courseId,
+        //         userId: userId,
+        //     }
+        // });
 
-        if (!courseOwner) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+        // if (!courseOwner) {
+        //     return new NextResponse("Unauthorized", { status: 401 });
+        // }
 
         const attachment = await db.attachment.create({
             data: {
                 url,
                 name: url.split("/").pop(),
-                courseId: resolvedParams.courseId,
+                chapterId: resolvedParams.chapterId,
             }
         });
 
         return NextResponse.json(attachment);
 
     } catch (error) {
-        console.log("COURSE_ID_ATTACHMENTS", error);
+        console.log("CHAPTER_ID_ATTACHMENTS", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

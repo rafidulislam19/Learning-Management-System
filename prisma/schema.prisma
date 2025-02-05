@@ -22,7 +22,6 @@ model Course {
   
   chapters Chapter[]
   quizzes Quiz[] // Added relation to quizzes
-  attachments Attachment[]
   purchases Purchase[]
 
   createdAt DateTime @default(now())
@@ -42,13 +41,13 @@ model Attachment {
   name String
   url String @db.Text
 
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  chapterId String
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([courseId])
+  @@index([chapterId])
 }
 
 model Chapter {
@@ -64,6 +63,8 @@ model Chapter {
 
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  attachments Attachment[]
 
   userProgress UserProgress[]
 
