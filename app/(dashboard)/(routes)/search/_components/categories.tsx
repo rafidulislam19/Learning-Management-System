@@ -10,7 +10,6 @@ import {
     FcSalesPerformance,
     FcSportsMode,
     FcCurrencyExchange,
-    FcSmartphoneTablet,
 } from "react-icons/fc";
 
 import { IconType  } from "react-icons";
