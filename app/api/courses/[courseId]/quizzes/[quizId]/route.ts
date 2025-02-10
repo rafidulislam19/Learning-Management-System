@@ -66,49 +66,118 @@ export async function DELETE(
         return NextResponse.json(deletedQuiz);
 
     } catch (error) {
-        console.log("[QUIZ_ID_DELETE]", error);
+        console.log("[Quiz_ID_DELETE]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
 
+// export async function PATCH(
+//     req: Request,
+//     { params }: { params: { courseId: string; quizId: string } }
+// ) {
+//     try {
+//         const { userId } = await auth();
+//         const { questions, ...values } = await req.json(); // Destructure questions and other values
+
+//         if (!userId) {
+//             return new NextResponse("Unauthorized", { status: 401 });
+//         }
+
+//         const { courseId, quizId } = params;
+
+//         const ownCourse = await db.course.findUnique({
+//             where: {
+//                 id: courseId,
+//                 userId,
+//             },
+//         });
+
+//         if (!ownCourse) {
+//             return new NextResponse("Unauthorized", { status: 401 });
+//         }
+
+//         // Update the quiz with the provided values and questions
+//         const quiz = await db.quiz.update({
+//             where: {
+//                 id: quizId,
+//                 courseId: courseId,
+//             },
+//             data: {
+//                 ...values,
+//                 questions: {
+//                     // Delete existing questions and create new ones
+//                     deleteMany: {}, // This will delete all existing questions
+//                     create: questions.map((q) => ({
+//                         questionText: q.questionText,
+//                         options: q.options,
+//                         correctAnswer: q.correctAnswer,
+//                     })),
+//                 },
+//             },
+//         });
+
+//         return NextResponse.json(quiz);
+//     } catch (error) {
+//         console.error("[COURSES_QUIZ_ID]", error);
+//         return new NextResponse("Internal Error", { status: 500 });
+//     }
+// }
+
 export async function PATCH(
     req: Request,
-    { params }: { params: Promise<{ courseId: string; quizId: string }>}
+    { params }: { params: { courseId: string; quizId: string } }
 ) {
     try {
         const { userId } = await auth();
-        const {...values } = await req.json();
+        const { title, questions } = await req.json(); // Destructure title and questions
 
-        if(!userId) {
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const resolvedParams = await params;
+        const { courseId, quizId } = params;
 
         const ownCourse = await db.course.findUnique({
             where: {
-                id: resolvedParams.courseId,
+                id: courseId,
                 userId,
-            }
+            },
         });
 
         if (!ownCourse) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        // Update the quiz with the provided values
+        const updateData: any = {};
+
+        if (title !== undefined) {
+            updateData.title = title; // Update the title if provided
+        }
+
+        if (questions !== undefined) {
+            updateData.questions = {
+                // Delete existing questions and create new ones
+                deleteMany: {}, // This will delete all existing questions
+                create: questions.map((q) => ({
+                    questionText: q.questionText,
+                    options: q.options,
+                    correctAnswer: q.correctAnswer,
+                })),
+            };
+        }
+
         const quiz = await db.quiz.update({
             where: {
-                id: resolvedParams.quizId,
-                courseId: resolvedParams.courseId,
+                id: quizId,
+                courseId: courseId,
             },
-            data: {
-                ...values,
-            }
+            data: updateData,
         });
 
         return NextResponse.json(quiz);
     } catch (error) {
-        console.log("[COURSES_QUIZ_ID]", error);
+        console.error("[COURSES_QUIZ_ID]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

@@ -19,7 +19,15 @@ const CourseHomeIdPage = async ({
                 orderBy: {
                     position: "asc"
                 }
-            }
+            },
+            quizzes: {
+                where: {
+                    isPublished: true,
+                },
+                orderBy: {
+                    position: "asc",
+                },
+            },
         }
         
     });

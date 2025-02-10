@@ -122,19 +122,7 @@ const ChapterIdPage = async ({
                             courseId={resolvedParams.courseId}
                             chapterId={resolvedParams.chapterId}
                         />
-                        <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={File} />
-                            <h2 className="text-xl">
-                                Resources & Attachments
-                            </h2>
-                        </div>
-                        <ChapterAttachmentForm 
-                            initialData={chapter}
-                            courseId={resolvedParams.courseId}
-                            chapterId={resolvedParams.chapterId}
-                        />
-                        </div>
+                        
                     </div>
                     <div>
                     <div className="flex items-center gap-x-2">
@@ -148,7 +136,19 @@ const ChapterIdPage = async ({
                     chapterId={resolvedParams.chapterId}
                     courseId={resolvedParams.courseId}
                     />
-                    
+                    <div>
+                    <div className="flex items-center gap-x-2 mt-5">
+                        <IconBadge icon={File} />
+                        <h2 className="text-xl">
+                            Resources & Attachments
+                        </h2>
+                    </div>
+                    <ChapterAttachmentForm 
+                        initialData={chapter}
+                        courseId={resolvedParams.courseId}
+                        chapterId={resolvedParams.chapterId}
+                    />
+                    </div>
                 </div>
                 </div>
             </div>

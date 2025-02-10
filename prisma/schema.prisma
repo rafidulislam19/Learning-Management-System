@@ -58,6 +58,7 @@ model Chapter {
   position Int
   isPublished Boolean @default(false)
   isFree Boolean @default(false)
+  type String @default("chapter")
 
   muxData MuxData?
 
@@ -83,7 +84,10 @@ model Quiz {
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  type String @default("quiz")
+
   questions QuizQuestion[]
+  progress QuizProgress[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,6 +108,23 @@ model QuizQuestion {
   updatedAt DateTime @updatedAt
 
   @@index([quizId])
+}
+
+model QuizProgress {
+  id String @id @default(uuid())
+  userId String
+  quizId String
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score Float
+  answers Json // Store user's answers (e.g., {"questionId": "A", "questionId2": "B"})
+  userAnswers Json // Store user-friendly answers (e.g., {"What is 2+2?": "4", "What is the capital of France?": "Paris"})
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([quizId])
+  @@unique([userId, quizId])
 }
 
 model MuxData {

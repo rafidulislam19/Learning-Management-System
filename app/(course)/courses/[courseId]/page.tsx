@@ -9,7 +9,7 @@ const CourseIdPage = async ({
     const resolvedParams = await params;
     const course = await db.course.findUnique({
         where: {
-            id: resolvedParams.courseId
+            id: resolvedParams.courseId,
         },
         include: {
             chapters: {
@@ -17,11 +17,18 @@ const CourseIdPage = async ({
                     isPublished: true,
                 },
                 orderBy: {
-                    position: "asc"
-                }
-            }
-        }
-        
+                    position: "asc",
+                },
+            },
+            quizzes: {
+                where: {
+                    isPublished: true,
+                },
+                orderBy: {
+                    position: "asc",
+                },
+            },
+        },
     });
 
     if (!course) {

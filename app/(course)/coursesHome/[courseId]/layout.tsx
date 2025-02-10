@@ -26,6 +26,14 @@ const CourseHomeLayout = async ({
                     position: "asc"
                 }
             },
+            quizzes: {
+                where: {
+                    isPublished: true,
+                },
+                orderBy: {
+                    position: "asc",
+                },
+            },
         },
     });
 

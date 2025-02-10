@@ -38,6 +38,11 @@ const CourseIdPage = async ({
                     position: "asc",
                 },
             },
+            quizzes: {
+                orderBy: {
+                    position: "asc",
+                },
+            },
         },
     });
 
