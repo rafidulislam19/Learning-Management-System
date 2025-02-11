@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { Prisma } from "@prisma/client"; 
 
 
 export async function DELETE(
@@ -166,8 +167,8 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // Define the update data with appropriate types
-        const updateData: any = {};
+        // Define the update data with a proper type (QuizUpdateInput)
+        const updateData: Prisma.QuizUpdateInput = {};
 
         if (title !== undefined) {
             updateData.title = title; // Update the title if provided
