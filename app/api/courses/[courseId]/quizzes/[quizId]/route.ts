@@ -144,7 +144,7 @@ interface UpdateQuizData {
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { courseId: string; quizId: string } }
+    { params }: { params: Promise<{ courseId: string; quizId: string }> }
 ) {
     try {
         const { userId } = await auth();
@@ -154,7 +154,7 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const { courseId, quizId } = params;
+        const { courseId, quizId } = await params;
 
         const ownCourse = await db.course.findUnique({
             where: {
