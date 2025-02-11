@@ -53,7 +53,7 @@ import { db } from "@/lib/db";
 
 export async function PUT(
     req: Request,
-    { params }: { params: { courseId: string } }
+    { params }: { params: Promise<{ courseId: string }> }
 ) {
     try {
         const { userId } = await auth();
@@ -64,9 +64,11 @@ export async function PUT(
 
         const { list } = await req.json();
 
+        const resolvedParams = await params;
+
         const ownCourse = await db.course.findUnique({
             where: {
-                id: params.courseId,
+                id: resolvedParams.courseId,
                 userId: userId,
             },
         });
