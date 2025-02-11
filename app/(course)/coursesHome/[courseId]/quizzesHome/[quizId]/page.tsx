@@ -5,22 +5,24 @@ import { Banner } from "@/components/banner";
 import { Lock } from "lucide-react";
 
 interface QuizHomePageProps {
-    params: { courseId: string; quizId: string };
+    params: Promise<{ courseId: string; quizId: string }>;
 }
 
 const QuizHomePage = async ({ params }: QuizHomePageProps) => {
 
+    const resolvedParams = await params;
+
     // Fetch the course and quiz
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId,
+            id: resolvedParams.courseId,
         },
     });
 
     const quiz = await db.quiz.findUnique({
         where: {
-            id: params.quizId,
-            courseId: params.courseId,
+            id: resolvedParams.quizId,
+            courseId: resolvedParams.courseId,
         },
         include: {
             questions: true,

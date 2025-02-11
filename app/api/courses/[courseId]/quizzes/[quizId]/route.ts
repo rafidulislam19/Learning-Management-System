@@ -77,7 +77,7 @@ export async function DELETE(
 // ) {
 //     try {
 //         const { userId } = await auth();
-//         const { questions, ...values } = await req.json(); // Destructure questions and other values
+//         const { title, questions } = await req.json(); // Destructure title and questions
 
 //         if (!userId) {
 //             return new NextResponse("Unauthorized", { status: 401 });
@@ -96,24 +96,31 @@ export async function DELETE(
 //             return new NextResponse("Unauthorized", { status: 401 });
 //         }
 
-//         // Update the quiz with the provided values and questions
+//         // Update the quiz with the provided values
+//         const updateData: any = {};
+
+//         if (title !== undefined) {
+//             updateData.title = title; // Update the title if provided
+//         }
+
+//         if (questions !== undefined) {
+//             updateData.questions = {
+//                 // Delete existing questions and create new ones
+//                 deleteMany: {}, // This will delete all existing questions
+//                 create: questions.map((q) => ({
+//                     questionText: q.questionText,
+//                     options: q.options,
+//                     correctAnswer: q.correctAnswer,
+//                 })),
+//             };
+//         }
+
 //         const quiz = await db.quiz.update({
 //             where: {
 //                 id: quizId,
 //                 courseId: courseId,
 //             },
-//             data: {
-//                 ...values,
-//                 questions: {
-//                     // Delete existing questions and create new ones
-//                     deleteMany: {}, // This will delete all existing questions
-//                     create: questions.map((q) => ({
-//                         questionText: q.questionText,
-//                         options: q.options,
-//                         correctAnswer: q.correctAnswer,
-//                     })),
-//                 },
-//             },
+//             data: updateData,
 //         });
 
 //         return NextResponse.json(quiz);
@@ -123,13 +130,24 @@ export async function DELETE(
 //     }
 // }
 
+interface Question {
+    questionText: string;
+    options: string[];
+    correctAnswer: string;
+}
+
+interface UpdateQuizData {
+    title?: string;
+    questions?: Question[];
+}
+
 export async function PATCH(
     req: Request,
     { params }: { params: { courseId: string; quizId: string } }
 ) {
     try {
         const { userId } = await auth();
-        const { title, questions } = await req.json(); // Destructure title and questions
+        const { title, questions }: UpdateQuizData = await req.json(); // Destructure title and questions
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -148,7 +166,7 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // Update the quiz with the provided values
+        // Define the update data with appropriate types
         const updateData: any = {};
 
         if (title !== undefined) {

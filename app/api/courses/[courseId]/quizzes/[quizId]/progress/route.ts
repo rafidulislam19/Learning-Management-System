@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(
     req: Request,
-    { params }: { params: { courseId: string; quizId: string } }
+    { params }: { params: Promise<{ courseId: string; quizId: string }> }
 ) {
     try {
         const { userId } = await auth();
@@ -14,10 +14,12 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const resolvedParams = await params;
+
         // Fetch the quiz to get question texts
         const quiz = await db.quiz.findUnique({
             where: {
-                id: params.quizId,
+                id: resolvedParams.quizId,
             },
             include: {
                 questions: true,
@@ -41,7 +43,7 @@ export async function POST(
             where: {
                 userId_quizId: {
                     userId,
-                    quizId: params.quizId,
+                    quizId: resolvedParams.quizId,
                 },
             },
             update: {
@@ -52,7 +54,7 @@ export async function POST(
             },
             create: {
                 userId,
-                quizId: params.quizId,
+                quizId: resolvedParams.quizId,
                 score,
                 answers,
                 userAnswers,

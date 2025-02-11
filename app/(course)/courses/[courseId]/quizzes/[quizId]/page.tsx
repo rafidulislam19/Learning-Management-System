@@ -91,7 +91,7 @@ import { Banner } from "@/components/banner";
 import { Lock } from "lucide-react";
 
 interface QuizPageProps {
-    params: { courseId: string; quizId: string };
+    params: Promise<{ courseId: string; quizId: string }>;
 }
 
 // Type for quiz question
@@ -110,6 +110,8 @@ interface QuizProgress {
     isCompleted: boolean;
 }
 
+
+
 const QuizPage = async ({ params }: QuizPageProps) => {
     const { userId } = await auth();
 
@@ -117,8 +119,10 @@ const QuizPage = async ({ params }: QuizPageProps) => {
         return redirect("/home");
     }
 
+    const resolvedParams = await params;
+
     const course = await db.course.findUnique({
-        where: { id: params.courseId },
+        where: { id: resolvedParams.courseId },
         include: {
             purchases: { where: { userId } },
         },
@@ -126,8 +130,8 @@ const QuizPage = async ({ params }: QuizPageProps) => {
 
     const quiz = await db.quiz.findUnique({
         where: {
-            id: params.quizId,
-            courseId: params.courseId,
+            id: resolvedParams.quizId,
+            courseId: resolvedParams.courseId,
         },
         include: { questions: true },
     });
@@ -141,7 +145,7 @@ const QuizPage = async ({ params }: QuizPageProps) => {
     const quizProgressData = await db.quizProgress.findFirst({
         where: {
             userId,
-            quizId: params.quizId,
+            quizId: resolvedParams.quizId,
         },
     });
 
@@ -179,7 +183,7 @@ const QuizPage = async ({ params }: QuizPageProps) => {
                 <QuizForm
                     quiz={formattedQuiz}
                     quizProgress={quizProgress}
-                    courseId={params.courseId}
+                    courseId={resolvedParams.courseId}
                     userId={userId}
                 />
             ) : (
@@ -192,12 +196,19 @@ const QuizPage = async ({ params }: QuizPageProps) => {
     );
 };
 
-function parseJson(data: any): { [key: string]: string } {
+function parseJson(data: unknown): { [key: string]: string } {
     try {
-        return typeof data === "string" ? JSON.parse(data) : data;
+        const parsed = typeof data === "string" ? JSON.parse(data) : data;
+
+        if (typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)) {
+            return parsed as { [key: string]: string };
+        }
+
+        return {};
     } catch {
         return {};
     }
 }
+
 
 export default QuizPage;

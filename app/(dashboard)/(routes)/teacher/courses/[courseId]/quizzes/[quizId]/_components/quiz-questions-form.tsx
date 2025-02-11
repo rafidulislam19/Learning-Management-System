@@ -305,7 +305,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil, PlusCircle, Trash, Save, X } from "lucide-react";
+import { Pencil, PlusCircle, Trash, X } from "lucide-react";
 
 interface QuizQuestionsFormProps {
     initialData: {
