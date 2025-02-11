@@ -1,10 +1,11 @@
 import { NavbarRoutes } from "@/components/navbar-routes";
-import { Chapter, Course } from "@prisma/client";
+import { Chapter, Course, Quiz } from "@prisma/client";
 import { CourseHomeMobileSidebar } from "./course-home-mobile-sidebar";
 
 interface CourseHomeNavbarProps {
     course: Course & {
-        chapters: Chapter[]
+        chapters: Chapter[];
+        quizzes: Quiz[];
     };
 }
 

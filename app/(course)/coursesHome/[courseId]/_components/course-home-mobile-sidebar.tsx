@@ -4,13 +4,14 @@ import {
     SheetContent,
     SheetTrigger
 } from "@/components/ui/sheet"
-import { Chapter, Course } from "@prisma/client";
+import { Chapter, Course, Quiz } from "@prisma/client";
 import { Menu } from "lucide-react";
 import { CourseHomeSidebar } from "./course-home-sidebar";
 
 interface CourseHomeMobileSidebarProps {
     course: Course & {
-            chapters: Chapter[]
+            chapters: Chapter[];
+            quizzes: Quiz[];
         };
 };
 
