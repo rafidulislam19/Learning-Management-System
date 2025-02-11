@@ -1,14 +1,15 @@
 import { NavbarRoutes } from "@/components/navbar-routes";
-import { Chapter, Course, UserProgress } from "@prisma/client";
+import { Chapter, Course, Quiz, UserProgress } from "@prisma/client";
 import { CourseMobileSidebar } from "./course-mobile-sidebar";
 
 interface CourseNavbarProps {
     course: Course & {
-        chapters: (Chapter & {
-            userProgress: UserProgress[] | null;
-        })[]
-    };
-    progressCount: number;
+            chapters: (Chapter & {
+                userProgress?: UserProgress[];  // Changed to match the expected type
+            })[];
+            quizzes: Quiz[]; // Add quizzes field
+        };
+        progressCount: number;
 }
 
 export const CourseNavbar = ({
