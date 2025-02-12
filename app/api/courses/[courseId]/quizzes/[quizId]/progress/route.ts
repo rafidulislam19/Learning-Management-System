@@ -33,7 +33,9 @@ export async function POST(
         // Create user-friendly answers
         const userAnswers = quiz.questions.reduce((acc, question) => {
             const userAnswer = answers[question.id];
-            const answerText = question.options[userAnswer] || "No answer";
+            // Ensure question.options is treated as a record with string keys
+            const options = question.options as Record<string, string> | null;
+            const answerText = options?.[userAnswer] || "No answer";
             acc[question.questionText] = answerText;
             return acc;
         }, {} as { [key: string]: string });
