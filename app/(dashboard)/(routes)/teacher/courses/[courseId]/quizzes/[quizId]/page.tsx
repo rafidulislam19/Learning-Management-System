@@ -149,12 +149,20 @@ import { QuizQuestionsForm } from "./_components/quiz-questions-form";
 import { Banner } from "@/components/banner";
 import { QuizActions } from "./_components/quiz-actions";
 
+// interface Question {
+//     id: string;
+//     questionText: string;
+//     options: string | { [key: string]: string } | null; // Allow null
+//     correctAnswer: string;
+// }
+
 interface Question {
     id: string;
     questionText: string;
-    options: string | { [key: string]: string } | null; // Allow null
+    options: { [key: string]: string }; // Ensure this is always an object
     correctAnswer: string;
 }
+
 
 const QuizIdPage = async ({
     params
@@ -205,16 +213,29 @@ const QuizIdPage = async ({
     };
 
     // ✅ Ensure type safety when mapping questions
+    // const allQuestionsComplete =
+    //     quiz.questions.length > 0 &&
+    //     quiz.questions.every((q) =>
+    //         isQuestionComplete({
+    //             id: q.id,
+    //             questionText: q.questionText,
+    //             options: q.options as string | { [key: string]: string } | null, // Type assertion
+    //             correctAnswer: q.correctAnswer,
+    //         })
+    //     );
     const allQuestionsComplete =
-        quiz.questions.length > 0 &&
-        quiz.questions.every((q) =>
-            isQuestionComplete({
-                id: q.id,
-                questionText: q.questionText,
-                options: q.options as string | { [key: string]: string } | null, // Type assertion
-                correctAnswer: q.correctAnswer,
-            })
-        );
+    quiz.questions.length > 0 &&
+    quiz.questions.every((q) =>
+        isQuestionComplete({
+            id: q.id,
+            questionText: q.questionText,
+            options: (typeof q.options === "string" 
+                      ? JSON.parse(q.options) 
+                      : q.options) || {}, // Ensure options is an object
+            correctAnswer: q.correctAnswer,
+        })
+    );
+
 
     const requiredFields = [quiz.title?.trim(), allQuestionsComplete];
     const totalFields = requiredFields.length;
@@ -270,10 +291,21 @@ const QuizIdPage = async ({
                                 quizId={resolvedParams.quizId}
                             />
                             <QuizQuestionsForm
-                                initialData={quiz}
+                                initialData={{
+                                    ...quiz,
+                                    questions: quiz.questions.map((q) => ({
+                                        id: q.id,
+                                        questionText: q.questionText,
+                                        options: (typeof q.options === "string" 
+                                                ? JSON.parse(q.options) 
+                                                : q.options) || {},
+                                        correctAnswer: q.correctAnswer,
+                                    }))
+                                }}
                                 courseId={resolvedParams.courseId}
                                 quizId={resolvedParams.quizId}
                             />
+
                         </div>
                     </div>
                 </div>
