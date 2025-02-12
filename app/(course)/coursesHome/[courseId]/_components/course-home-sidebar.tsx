@@ -36,15 +36,12 @@
 import { Chapter, Course, Quiz } from "@prisma/client";
 import { CourseHomeSidebarItem } from "./course-home-sidebar-item";
 
+
 interface CourseHomeSidebarProps {
-    course: {
-        chapters: ({
-            position: number; // Ensure position exists
-        }) & Chapter[];
-        quizzes: ({
-            position: number; // Ensure position exists
-        }) & Quiz[];
-    } & Course;
+    course: Course & {
+        chapters: (Chapter & { position: number })[];
+        quizzes: (Quiz & { position: number })[];
+    };
 }
 
 // export const CourseHomeSidebar = async ({

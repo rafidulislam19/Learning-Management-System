@@ -36,14 +36,14 @@ const QuizHomePage = async ({ params }: QuizHomePageProps) => {
     const { userId } = await auth();
 
     return (
-        <div className="p-6">
+        <div>
             {!userId && (
                 <Banner
                     variant="warning"
                     label="You need to purchase this course to access the quiz."
                 />
             )}
-            <h1 className="text-2xl font-bold my-4">{quiz.title}</h1>
+            <h1 className="text-2xl font-bold my-4 p-6">{quiz.title}</h1>
             
             <div className="flex flex-col items-center justify-center gap-3 py-20">
                 <Lock className="h-6 w-6 text-slate-500"/>
