@@ -57,7 +57,7 @@ export default async function Dashboard({
         <About />
         <div className="w-4/5 mx-auto space-y-4 py-6">
             <div className="my-8 text-left" data-aos="fade-left" data-aos-anchor-placement="top-center">
-                <h1 className="text-3xl md:text-4xl text-gray-700 dark:text-gray-300 font-serif font-semibold my-4">All the skills you need in one place</h1>
+                <h1 className="text-3xl md:text-4xl text-gray-700 dark:text-gray-300 font-semibold my-4">All the skills you need in one place</h1>
                 <p className="text-gray-500 dark:text-gray-400 text-sm md:text-xl">From critical skills to technical topics, LMS supports your professional development.</p>
             </div>
             <div>
