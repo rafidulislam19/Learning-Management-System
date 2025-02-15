@@ -44,7 +44,7 @@ export default async function Home({
         
         <div>
             <div className="h-[75px] fixed inset-y-0 w-full z-50">    
-                        <Navbar />
+                <Navbar />
             </div>
             <BannerCarousel />
             <About />
