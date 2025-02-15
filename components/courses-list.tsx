@@ -16,7 +16,8 @@ export const CoursesList = ({
     return ( 
         <div>
             <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
-                {items.map((item)=> (
+                {items.map((item,i)=> (
+                    <div data-aos="fade-right" data-aos-anchor-placement="top-center" data-aos-delay={`${i*150}`}>
                     <CourseCard
                        key={item.id} 
                        id={item.id} 
@@ -26,7 +27,8 @@ export const CoursesList = ({
                        price={typeof item.price === "number" ? item.price : 0}
                        progress={item.progress}
                        category={item.category?.name || "Uncategorized"}
-                    /> 
+                    />
+                    </div>
                 ))}
             </div>
             {items.length === 0 && (
