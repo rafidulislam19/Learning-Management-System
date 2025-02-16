@@ -121,7 +121,7 @@ export const QuizForm = ({ quiz, quizProgress, courseId, userId }: QuizFormProps
             })}
             {score !== null ? (
                 <div className="mt-4">
-                    <p className="font-semibold text-xl text-yellow-200">Your score: {score} / {quiz.questions.length}</p>
+                    <p className="font-semibold text-xl text-yellow-600 dark:text-yellow-200">Your score: {score} / {quiz.questions.length}</p>
                 </div>
             ) : (
                 <Button onClick={handleSubmit} disabled={isSubmitting}>
