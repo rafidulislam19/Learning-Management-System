@@ -180,17 +180,17 @@ export async function POST(
       },
     });
 
-    const successUrl = encodeURIComponent(
-      `/courses/${course.id}/checkout/success?transactionId=${transactionId}&courseId=${course.id}`
-    );
+    // const successUrl = encodeURIComponent(
+    //   `/courses/${course.id}/checkout/success?transactionId=${transactionId}&courseId=${course.id}`
+    // );
 
-    const failUrl = encodeURIComponent(
-      `/courses/${course.id}/checkout/fail?transactionId=${transactionId}&courseId=${course.id}`
-    );
+    // const failUrl = encodeURIComponent(
+    //   `/courses/${course.id}/checkout/fail?transactionId=${transactionId}&courseId=${course.id}`
+    // );
 
-    const cancelUrl = encodeURIComponent(
-      `/courses/${course.id}/checkout/cancel?transactionId=${transactionId}&courseId=${course.id}`
-    );
+    // const cancelUrl = encodeURIComponent(
+    //   `/courses/${course.id}/checkout/cancel?transactionId=${transactionId}&courseId=${course.id}`
+    // );
 
     // Prepare FormData for PayStation
     const paymentData = new FormData();
