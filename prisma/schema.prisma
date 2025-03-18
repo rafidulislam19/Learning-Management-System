@@ -173,8 +173,6 @@ model StripeCustomer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-<<<<<<< HEAD
-=======
 }
 
 model TransactionHistory {
@@ -200,5 +198,4 @@ model PendingTransaction {
   createdAt     DateTime @default(now())
 
   @@index([transactionId])
->>>>>>> a21e24b (Pay Station Integration)
 }
