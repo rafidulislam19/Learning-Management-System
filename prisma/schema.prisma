@@ -173,4 +173,32 @@ model StripeCustomer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+<<<<<<< HEAD
+=======
+}
+
+model TransactionHistory {
+  id            String   @id @default(uuid())
+  transactionId String   @unique
+  status        String
+  userId        String
+  courseId      String
+  amount        Float
+  currency      String
+  createdAt     DateTime @default(now())
+
+  @@index([transactionId])
+}
+
+model PendingTransaction {
+  id            String  @id @default(uuid())
+  transactionId String  @unique
+  userId        String
+  courseId      String
+  amount        Float
+  currency      String
+  createdAt     DateTime @default(now())
+
+  @@index([transactionId])
+>>>>>>> a21e24b (Pay Station Integration)
 }

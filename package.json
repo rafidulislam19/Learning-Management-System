@@ -33,6 +33,10 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
+<<<<<<< HEAD
+=======
+    "form-data": "^4.0.2",
+>>>>>>> a21e24b (Pay Station Integration)
     "framer-motion": "^12.4.2",
     "lucide-react": "^0.469.0",
     "next": "^15.1.6",
@@ -46,10 +50,18 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.4.0",
     "react-parallax-tilt": "^1.7.282",
+<<<<<<< HEAD
     "react-quill": "^2.0.0",
     "react-quill-new": "^3.3.3",
     "recharts": "^2.15.0",
     "shadcn-ui": "^0.9.4",
+=======
+    "react-quill": "^0.0.2",
+    "react-quill-new": "^3.3.3",
+    "recharts": "^2.15.0",
+    "shadcn-ui": "^0.9.4",
+    "sslcommerz-lts": "^1.1.0",
+>>>>>>> a21e24b (Pay Station Integration)
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
