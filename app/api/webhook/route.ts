@@ -1,52 +1,3 @@
-<<<<<<< HEAD
-import Stripe from "stripe";
-import { headers } from "next/headers";
-import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
-import { db } from "@/lib/db";
-
-export async function POST(req: Request) {
-    const body = await req.text();
-    const signature = (await headers()).get("Stripe-Signature") as string;
-
-    let event: Stripe.Event;
-    try {
-        event = stripe.webhooks.constructEvent(
-            body,
-            signature,
-            process.env.STRIPE_WEBHOOK_SECRET!
-        );
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
-        }
-        return new NextResponse(`Webhook Error: Unknown error`, { status: 400 });
-    }
-
-    const session = event.data.object as Stripe.Checkout.Session;
-    const userId = session?.metadata?.userId;
-    const courseId = session?.metadata?.courseId;
-
-    if (event.type === "checkout.session.completed") {
-        if (!userId || !courseId) {
-            return new NextResponse(`Webhook Error: Missing metadata`, { status: 400 });
-        }
-
-        console.log("Session found!!!!");
-
-        await db.purchase.create({
-            data: {
-                courseId,
-                userId,
-            }
-        });
-    } else {
-        return new NextResponse(`Webhook Error: Unhandled event type ${event.type}`, { status: 200 });
-    }
-
-    return new NextResponse(null, { status: 200 });
-}
-=======
 // import { NextRequest, NextResponse } from 'next/server';
 // import { db } from '@/lib/db'; // Ensure you have a db.ts file to initialize Prisma
 
@@ -122,7 +73,7 @@ export async function GET(req: NextRequest) {
 
     console.log("📢 Received PayStation Payment Notification:", { status, invoice_number, trx_id });
 
-    // ✅ Retrieve courseId and amount from database using transactionId
+    // Retrieve courseId and amount from database using transactionId
     const pendingTransaction = await db.pendingTransaction.findUnique({
       where: { transactionId: invoice_number },
     });
@@ -137,9 +88,9 @@ export async function GET(req: NextRequest) {
     let redirectUrl;
 
     if (status === "Successful") {
-      console.log("✅ Payment successful, saving to database...");
+      console.log(" Payment successful, saving to database...");
 
-      // ✅ Save transaction in `purchase` and `transactionHistory`
+      //  Save transaction in `purchase` and `transactionHistory`
       await db.$transaction([
         db.purchase.create({
           data: {
@@ -159,51 +110,50 @@ export async function GET(req: NextRequest) {
         }),
       ]);
 
-      // ✅ Cleanup: Delete the processed pending transaction
+      // Cleanup: Delete the processed pending transaction
       await db.pendingTransaction.delete({
         where: { transactionId: invoice_number },
       });
 
-      console.log("✅ Transaction saved and deleted from PendingTransaction table.");
+      console.log(" Transaction saved and deleted from PendingTransaction table.");
       redirectUrl = `/courses/${courseId}/checkout/success?transactionId=${invoice_number}&courseId=${courseId}`;
 
     } else if (status === "Failed") {
       console.log("❌ Payment failed.");
 
-      // ✅ Cleanup: Delete the processed pending transaction
+      // Cleanup: Delete the processed pending transaction
       await db.pendingTransaction.delete({
         where: { transactionId: invoice_number },
       });
 
-      console.log("✅ Transaction deleted after failure.");
+      console.log("Transaction deleted after failure.");
       redirectUrl = `/courses/${courseId}/checkout/fail?transactionId=${invoice_number}&courseId=${courseId}`;
 
     } else {
-      console.log("❌ Payment canceled by the user.");
+      console.log(" Payment canceled by the user.");
 
-      // ✅ Cleanup: Delete the processed pending transaction
+      //  Cleanup: Delete the processed pending transaction
       await db.pendingTransaction.delete({
         where: { transactionId: invoice_number },
       });
 
-      console.log("✅ Transaction deleted after cancellation.");
+      console.log(" Transaction deleted after cancellation.");
       redirectUrl = `/courses/${courseId}/checkout/cancel?transactionId=${invoice_number}&courseId=${courseId}`;
     }
 
-    // ✅ Construct correct origin (handles ngrok)
+    // Construct correct origin (handles ngrok)
     const forwardedHost = req.headers.get("x-forwarded-host");
     const protocol = req.headers.get("x-forwarded-proto") || "https";
     const origin = forwardedHost ? `${protocol}://${forwardedHost}` : req.nextUrl.origin;
     console.log(`🌐 Detected origin: ${origin}`);
 
-    // ✅ Redirect user
+    // Redirect user
     const absoluteUrl = new URL(redirectUrl, origin);
     console.log("🔄 Redirecting to:", absoluteUrl);
 
     return NextResponse.redirect(absoluteUrl, 303);
   } catch (error) {
-    console.error("❌ Error processing GET request for webhook:", error);
+    console.error("Error processing GET request for webhook:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
->>>>>>> a21e24b (Pay Station Integration)
