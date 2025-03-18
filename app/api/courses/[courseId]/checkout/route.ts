@@ -167,7 +167,7 @@ export async function POST(
     }
 
     const transactionId = `txn_${Date.now()}`;
-    const amount = course.price || 0; 
+    const amount = course.price || 0;
 
      // Store transaction details in `PendingTransaction`
      await db.pendingTransaction.create({
@@ -196,10 +196,10 @@ export async function POST(
     const paymentData = new FormData();
     paymentData.append("invoice_number", transactionId);
     paymentData.append("currency", "BDT");
-    paymentData.append("payment_amount", course.price.toString());
+    paymentData.append("payment_amount", course.price?.toString() || 0);
     paymentData.append("reference", `${transactionId}-${course.id}`);
-    paymentData.append("cust_name", user.username || "Customer Name");
-    paymentData.append("cust_phone", "01716573924"); // Replace with actual user phone if available
+    paymentData.append("cust_name", user.username || "Gmail User");
+    paymentData.append("cust_phone", "01711111111"); // Replace with actual user phone if available
     paymentData.append("cust_email", user.emailAddresses[0].emailAddress);
     paymentData.append("cust_address", "Dhaka, Bangladesh");
     paymentData.append(
