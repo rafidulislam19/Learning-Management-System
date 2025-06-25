@@ -9,219 +9,185 @@ generator client {
 }
 
 model Course {
-  id String @id @default(uuid())
-  userId String 
-  title String @db.Text
-  description String? @db.Text
-  imageUrl String? @db.Text
-  price Float?
-  isPublished Boolean @default(false)
-
-  categoryId String?
-  category Category? @relation(fields: [categoryId], references: [id])
-  
-  chapters Chapter[]
-  quizzes Quiz[] // Added relation to quizzes
-  purchases Purchase[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String      @id @default(uuid())
+  userId       String      @map("userid")
+  title        String      @db.Text
+  description  String?     @db.Text
+  imageUrl     String?     @db.Text @map("imageurl")
+  price        Float?
+  isPublished  Boolean     @default(false) @map("ispublished")
+  categoryId   String?     @map("categoryid")
+  category     Category?   @relation(fields: [categoryId], references: [id])
+  chapters     Chapter[]
+  quizzes      Quiz[]
+  purchases    Purchase[]
+  createdAt    DateTime    @default(now()) @map("createdat")
+  updatedAt    DateTime    @updatedAt @map("updatedat")
 
   @@index([categoryId])
-
   @@map("course")
 }
 
 model Category {
-  id String @id @default(uuid())
-  name String @unique
-  courses Course[]
+  id       String   @id @default(uuid())
+  name     String   @unique
+  courses  Course[]
 
   @@map("category")
 }
 
 model Attachment {
-  id String @id @default(uuid())
-  name String
-  url String @db.Text
-
-  chapterId String
-  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  name       String
+  url        String   @db.Text
+  chapterId  String   @map("chapterid")
+  chapter    Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("createdat")
+  updatedAt  DateTime @updatedAt @map("updatedat")
 
   @@index([chapterId])
-
   @@map("attachment")
 }
 
 model Chapter {
-  id String @id @default(uuid())
-  title String
-  description String? @db.Text
-  videoUrl String? @db.Text
-  position Int
-  isPublished Boolean @default(false)
-  isFree Boolean @default(false)
-  type String @default("chapter")
-
-  muxData MuxData?
-
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  attachments Attachment[]
-
+  id           String          @id @default(uuid())
+  title        String
+  description  String?         @db.Text
+  videoUrl     String?         @db.Text @map("videourl")
+  position     Int
+  isPublished  Boolean         @default(false) @map("ispublished")
+  isFree       Boolean         @default(false) @map("isfree")
+  type         String          @default("chapter")
+  muxData      MuxData?
+  courseId     String          @map("courseid")
+  course       Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  attachments  Attachment[]
   userProgress UserProgress[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime        @default(now()) @map("createdat")
+  updatedAt    DateTime        @updatedAt @map("updatedat")
 
   @@index([courseId])
-
   @@map("chapter")
 }
 
 model Quiz {
-  id String @id @default(uuid())
-  title String
-  position Int
-  isPublished Boolean @default(false)
-
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  type String @default("quiz")
-
-  questions QuizQuestion[]
-  progress QuizProgress[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String         @id @default(uuid())
+  title        String
+  position     Int
+  isPublished  Boolean        @default(false) @map("ispublished")
+  courseId     String         @map("courseid")
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  type         String         @default("quiz")
+  questions    QuizQuestion[]
+  progress     QuizProgress[]
+  createdAt    DateTime       @default(now()) @map("createdat")
+  updatedAt    DateTime       @updatedAt @map("updatedat")
 
   @@index([courseId])
-
   @@map("quiz")
 }
 
 model QuizQuestion {
-  id String @id @default(uuid())
-  questionText String @db.Text
-  options Json // Store options as JSON (e.g., {"A": "Answer 1", "B": "Answer 2"})
-  correctAnswer String
-
-  quizId String
-  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String     @id @default(uuid())
+  questionText  String     @db.Text @map("questiontext")
+  options       Json
+  correctAnswer String     @map("correctanswer")
+  quizId        String     @map("quizid")
+  quiz          Quiz       @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt     DateTime   @default(now()) @map("createdat")
+  updatedAt     DateTime   @updatedAt @map("updatedat")
 
   @@index([quizId])
-
   @@map("quizquestion")
 }
 
 model QuizProgress {
-  id String @id @default(uuid())
-  userId String
-  quizId String
-  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  score Float
-  answers Json // Store user's answers (e.g., {"questionId": "A", "questionId2": "B"})
-  userAnswers Json // Store user-friendly answers (e.g., {"What is 2+2?": "4", "What is the capital of France?": "Paris"})
-  isCompleted Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  userId       String   @map("userid")
+  quizId       String   @map("quizid")
+  quiz         Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score        Float
+  answers      Json
+  userAnswers  Json       @map("useranswers")
+  isCompleted  Boolean    @default(false) @map("iscompleted")
+  createdAt    DateTime   @default(now()) @map("createdat")
+  updatedAt    DateTime   @updatedAt @map("updatedat")
 
   @@index([quizId])
   @@unique([userId, quizId])
-
   @@map("quizprogress")
 }
 
 model MuxData {
-  id String @id @default(uuid())
-  assetId String
+  id         String   @id @default(uuid())
+  assetId    String   @map("assetid")
   playbackId String?
-
-  chapterId String @unique
-  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId  String   @unique @map("chapterid")
+  chapter    Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@map("muxdata")
 }
 
 model UserProgress {
-  id String @id @default(uuid())
-  userId String
-
-  chapterId String
-  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  isCompleted Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String    @id @default(uuid())
+  userId       String    @map("userid")
+  chapterId    String    @map("chapterid")
+  chapter      Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  isCompleted  Boolean   @default(false) @map("iscompleted")
+  createdAt    DateTime  @default(now()) @map("createdat")
+  updatedAt    DateTime  @updatedAt @map("updatedat")
 
   @@index([chapterId])
   @@unique([userId, chapterId])
-
   @@map("userprogress")
 }
 
 model Purchase {
-  id String @id @default(uuid())
-  userId String
-
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  userId    String    @map("userid")
+  courseId  String    @map("courseid")
+  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now()) @map("createdat")
+  updatedAt DateTime  @updatedAt @map("updatedat")
 
   @@unique([userId, courseId])
   @@index([courseId])
-
   @@map("purchase")
 }
 
 model StripeCustomer {
-  id String @id @default(uuid())
-  userId String @unique
-  stripeCustomerId String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(uuid())
+  userId           String   @unique @map("userid")
+  stripeCustomerId String   @unique @map("stripecustomerid")
+  createdAt        DateTime @default(now()) @map("createdat")
+  updatedAt        DateTime @updatedAt @map("updatedat")
 
   @@map("stripecustomer")
 }
 
 model TransactionHistory {
   id            String   @id @default(uuid())
-  transactionId String   @unique
+  transactionId String   @unique @map("transactionid")
   status        String
-  userId        String
-  courseId      String
+  userId        String   @map("userid")
+  courseId      String   @map("courseid")
   amount        Float
   currency      String
-  createdAt     DateTime @default(now())
+  createdAt     DateTime @default(now()) @map("createdat")
 
   @@index([transactionId])
-
   @@map("transactionhistory")
 }
 
 model PendingTransaction {
-  id            String  @id @default(uuid())
-  transactionId String  @unique
-  userId        String
-  courseId      String
+  id            String   @id @default(uuid())
+  transactionId String   @unique @map("transactionid")
+  userId        String   @map("userid")
+  courseId      String   @map("courseid")
   amount        Float
   currency      String
-  createdAt     DateTime @default(now())
+  createdAt     DateTime @default(now()) @map("createdat")
 
   @@index([transactionId])
-
   @@map("pendingtransaction")
 }
